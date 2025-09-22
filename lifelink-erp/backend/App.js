@@ -19,6 +19,8 @@ const sequelize = require('./db');
 const Patient = require('./model/Patient');
 const LabReport = require('./model/LabReport');
 const LabTechnician = require('./model/LabTechnician');
+const Doctor = require('./model/Doctor');
+const Prescription = require('./model/Prescription');
 
 sequelize.sync({ alter: true })
   .then(() => {
@@ -32,6 +34,8 @@ sequelize.sync({ alter: true })
 const patientRouter = require('./routes/patient');
 const labTechnicianRouter = require('./routes/labTechnician');
 const labTechnicianUploadRouter = require('./routes/labTechnicianUpload');
+const doctorRouter = require('./routes/doctor');
+const prescriptionRouter = require('./routes/prescription');
 
 // Patient routes for frontend integration
 app.use('/api/patients', patientRouter);  // Main patient API routes
@@ -40,6 +44,12 @@ app.use('/patients', patientRouter);      // Alternative endpoint for compatibil
 // Lab technician routes
 app.use('/api/lab-technician', labTechnicianRouter);         // JSON routes
 app.use('/api/lab-technician', labTechnicianUploadRouter);   // File upload routes
+
+// Doctor routes
+app.use('/api/doctors', doctorRouter);
+
+// Prescription routes
+app.use('/api/prescriptions', prescriptionRouter);
 
 // Test route to verify backend is working
 app.get('/api/test', (req, res) => {

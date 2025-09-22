@@ -5,6 +5,8 @@ import PatientRegisterForm from './PatientReg';
 import PatientDashboard from './PatientDashboard';
 import LabTechLogin from './LabTechLogin';
 import LabTechDashboard from './LabTechDashboard';
+import DoctorLogin from './DoctorLogin';
+import DoctorDashboard from './DoctorDashboard';
 import './App.css';
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
   const [patientData, setPatientData] = useState(null);
   const [isLabTechAuthenticated, setIsLabTechAuthenticated] = useState(false);
   const [labTechData, setLabTechData] = useState(null);
+  const [isDoctorAuthenticated, setIsDoctorAuthenticated] = useState(false);
+  const [doctorData, setDoctorData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Check for existing authentication on app load
@@ -37,6 +41,16 @@ function App() {
           setLabTechData(parsedLabTechData);
           setIsLabTechAuthenticated(true);
         }
+
+        // Check doctor authentication
+        const savedDoctorData = localStorage.getItem('doctorData');
+        const doctorToken = localStorage.getItem('doctorToken');
+        
+        if (savedDoctorData && doctorToken) {
+          const parsedDoctorData = JSON.parse(savedDoctorData);
+          setDoctorData(parsedDoctorData);
+          setIsDoctorAuthenticated(true);
+        }
       } catch (error) {
         console.error('Error checking authentication:', error);
         // Clear invalid data
@@ -44,6 +58,8 @@ function App() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('labTechData');
         localStorage.removeItem('labTechToken');
+        localStorage.removeItem('doctorData');
+        localStorage.removeItem('doctorToken');
       } finally {
         setIsLoading(false);
       }
@@ -72,6 +88,16 @@ function App() {
     localStorage.setItem('labTechToken', 'lab-tech-authenticated');
   };
 
+  // Handle successful doctor login
+  const handleDoctorLoginSuccess = (data) => {
+    setDoctorData(data);
+    setIsDoctorAuthenticated(true);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('doctorData', JSON.stringify(data));
+    localStorage.setItem('doctorToken', 'doctor-authenticated');
+  };
+
   // Handle patient logout
   const handlePatientLogout = () => {
     setIsAuthenticated(false);
@@ -90,6 +116,16 @@ function App() {
     // Clear localStorage
     localStorage.removeItem('labTechData');
     localStorage.removeItem('labTechToken');
+  };
+
+  // Handle doctor logout
+  const handleDoctorLogout = () => {
+    setIsDoctorAuthenticated(false);
+    setDoctorData(null);
+    
+    // Clear localStorage
+    localStorage.removeItem('doctorData');
+    localStorage.removeItem('doctorToken');
   };
 
   // Show loading spinner while checking authentication
@@ -161,6 +197,29 @@ function App() {
                   onLogout={handleLabTechLogout}
                 /> : 
                 <Navigate to="/lab-login" replace />
+            } 
+          />
+
+          {/* Doctor Login Route */}
+          <Route 
+            path="/doctor-login" 
+            element={
+              isDoctorAuthenticated ? 
+                <Navigate to="/doctor-dashboard" replace /> : 
+                <DoctorLogin onLogin={handleDoctorLoginSuccess} />
+            } 
+          />
+
+          {/* Doctor Dashboard Route - Protected */}
+          <Route 
+            path="/doctor-dashboard" 
+            element={
+              isDoctorAuthenticated && doctorData ? 
+                <DoctorDashboard 
+                  doctorData={doctorData} 
+                  onLogout={handleDoctorLogout}
+                /> : 
+                <Navigate to="/doctor-login" replace />
             } 
           />
           

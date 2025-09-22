@@ -13,6 +13,12 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
   const [remarks, setRemarks] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Prescription state
+  const [activeTab, setActiveTab] = useState('lab-report'); // 'lab-report' or 'prescription'
+  const [medicines, setMedicines] = useState([{ name: '', dosage: '', frequency: '', duration: '' }]);
+  const [instructions, setInstructions] = useState('');
+  const [diagnosis, setDiagnosis] = useState('');
 
   const searchPatients = async () => {
     if (!searchQuery.trim()) {
@@ -90,6 +96,66 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
       
     } catch (error) {
       setMessage('❌ Error uploading report: ' + (error.response?.data?.error || error.message));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Medicine management functions
+  const addMedicine = () => {
+    setMedicines([...medicines, { name: '', dosage: '', frequency: '', duration: '' }]);
+  };
+
+  const removeMedicine = (index) => {
+    const newMedicines = medicines.filter((_, i) => i !== index);
+    setMedicines(newMedicines);
+  };
+
+  const updateMedicine = (index, field, value) => {
+    const newMedicines = [...medicines];
+    newMedicines[index][field] = value;
+    setMedicines(newMedicines);
+  };
+
+  // Handle prescription creation
+  const handlePrescriptionSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedPatient) {
+      setMessage('❌ Please select a patient first');
+      return;
+    }
+
+    if (!diagnosis.trim()) {
+      setMessage('❌ Please provide a diagnosis');
+      return;
+    }
+
+    const validMedicines = medicines.filter(med => med.name.trim() && med.dosage.trim());
+    if (validMedicines.length === 0) {
+      setMessage('❌ Please add at least one medicine');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await axios.post('http://localhost:5000/api/prescriptions/create', {
+        patient_id: selectedPatient.id,
+        doctor_id: labTechData.id,
+        medicines: validMedicines,
+        instructions: instructions.trim(),
+        diagnosis: diagnosis.trim()
+      });
+
+      setMessage('✅ Prescription created successfully!');
+      
+      // Reset prescription form
+      setMedicines([{ name: '', dosage: '', frequency: '', duration: '' }]);
+      setInstructions('');
+      setDiagnosis('');
+      
+    } catch (error) {
+      setMessage('❌ Error creating prescription: ' + (error.response?.data?.error || error.message));
     } finally {
       setIsLoading(false);
     }
