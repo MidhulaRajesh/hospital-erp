@@ -1,0 +1,322 @@
+/* Lab Technician Login - Elegant Styling with Orange Theme */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.lab-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lab-login-form {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-login-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.lab-login-form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lab-login-subtitle {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  border-color: #f59e0b;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-group input:hover {
+  border-color: #bbb;
+  background: #fff;
+}
+
+.form-group input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Input icons */
+.form-group input[type="email"] {
+  padding-left: 45px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f59e0b'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207'/%3e%3c/svg%3e");
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.form-group input[type="password"] {
+  padding-left: 45px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f59e0b'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z'/%3e%3c/svg%3e");
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+/* Loading state */
+.submit-btn.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message:contains("✅") {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.message:contains("❌") {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.lab-login-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.lab-login-footer p {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .lab-login-container {
+    padding: 15px;
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+  
+  .lab-login-form {
+    padding: 30px 20px;
+    margin: 0;
+    border-radius: 15px;
+    max-width: 100%;
+  }
+  
+  .lab-login-form h2 {
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+  }
+  
+  .lab-login-subtitle {
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group input {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    padding-left: 40px;
+    background-size: 18px;
+    background-position: 12px center;
+  }
+  
+  .submit-btn {
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lab-login-form {
+    padding: 25px 15px;
+  }
+  
+  .lab-login-form h2 {
+    font-size: 1.5rem;
+  }
+  
+  .form-group input {
+    padding: 10px 12px;
+  }
+  
+  .form-group input[type="email"],
+  .form-group input[type="password"] {
+    padding-left: 35px;
+    background-size: 16px;
+    background-position: 10px center;
+  }
+}
+
+/* Loading spinner */
+.submit-btn.loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
