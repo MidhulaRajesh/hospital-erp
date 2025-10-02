@@ -7,6 +7,12 @@ import LabTechLogin from './LabTechLogin';
 import LabTechDashboard from './LabTechDashboard';
 import DoctorLogin from './DoctorLogin';
 import DoctorDashboard from './DoctorDashboard';
+import DeceasedDonorEnhanced from './DeceasedDonorEnhanced';
+import OrganTransplant from './OrganTransplant';
+import OrganMatching from './OrganMatching';
+import RecipientDashboard from './RecipientDashboard';
+import RecipientRegistration from './RecipientRegistration';
+import Navigation from './Navigation';
 import './App.css';
 
 function App() {
@@ -222,11 +228,38 @@ function App() {
                 <Navigate to="/doctor-login" replace />
             } 
           />
+
+          {/* Organ Transplant Module Routes */}
+          <Route 
+            path="/organ-transplant" 
+            element={<OrganTransplant />} 
+          />
+
+          <Route 
+            path="/organ-matching" 
+            element={<OrganMatching />} 
+          />
+
+          <Route 
+            path="/recipient-dashboard" 
+            element={<RecipientDashboard />} 
+          />
+
+          <Route 
+            path="/recipient-registration" 
+            element={<RecipientRegistration />} 
+          />
+
+          {/* Deceased Donor Registration Route */}
+          <Route 
+            path="/deceased-donor-registration" 
+            element={<DeceasedDonorEnhanced />} 
+          />
           
-          {/* Default Route - Redirect to patient login */}
+          {/* Default Route - Show Navigation */}
           <Route 
             path="/" 
-            element={<Navigate to="/login" replace />} 
+            element={<Navigation />} 
           />
           
           {/* Catch all route - Redirect to patient login */}

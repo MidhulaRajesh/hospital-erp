@@ -19,8 +19,7 @@ const Patient = sequelize.define('Patient', {
   },
   email: {
     type: DataTypes.STRING(100),
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   password: {
     type: DataTypes.STRING(100),
@@ -35,7 +34,13 @@ const Patient = sequelize.define('Patient', {
 }, {
   timestamps: true,
   createdAt: 'created_at',
-  updatedAt: false
+  updatedAt: false,
+  indexes: [
+    {
+      unique: true,
+      fields: ['email']
+    }
+  ]
 });
 
 module.exports = Patient;
