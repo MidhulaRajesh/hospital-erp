@@ -34,6 +34,16 @@ const Navigation = () => {
             <Link to="/lab-login" className="nav-link">
               🧪 Lab Technician Login
             </Link>
+            <Link to="/pharmacist-login" className="nav-link">
+              💊 Pharmacist Login
+            </Link>
+          </div>
+
+          <div className="nav-section">
+            <h3>Administration</h3>
+            <Link to="/admin-login" className="nav-link admin-link">
+              🛡️ Admin Login
+            </Link>
           </div>
 
           <div className="nav-section">

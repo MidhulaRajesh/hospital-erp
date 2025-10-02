@@ -24,6 +24,8 @@ const Prescription = require('./model/Prescription');
 const DeceasedDonor = require('./model/DeceasedDonor');
 const Recipient = require('./model/Recipient');
 const OrganTransplant = require('./model/OrganTransplant');
+const Pharmacist = require('./model/Pharmacist');
+const Admin = require('./model/Admin');
 
 // Setup model associations
 if (OrganTransplant.defineAssociations) {
@@ -48,6 +50,8 @@ const prescriptionRouter = require('./routes/prescription');
 const deceasedDonorRouter = require('./routes/deceasedDonor');
 const recipientRouter = require('./routes/recipient');
 const organTransplantRouter = require('./routes/organTransplant');
+const pharmacistRouter = require('./routes/pharmacist');
+const adminRouter = require('./routes/admin');
 
 // Patient routes for frontend integration
 app.use('/api/patients', patientRouter);  // Main patient API routes
@@ -71,6 +75,12 @@ app.use('/api/recipient', recipientRouter);
 
 // Organ Transplant routes
 app.use('/api/organ-transplant', organTransplantRouter);
+
+// Pharmacist routes
+app.use('/api/pharmacist', pharmacistRouter);
+
+// Admin routes
+app.use('/api/admin', adminRouter);
 
 // Test route to verify backend is working
 app.get('/api/test', (req, res) => {
