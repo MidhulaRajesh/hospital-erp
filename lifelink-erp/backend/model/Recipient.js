@@ -24,8 +24,7 @@ const Recipient = sequelize.define('Recipient', {
   },
   email: { 
     type: DataTypes.STRING, 
-    allowNull: false, 
-    unique: true   
+    allowNull: false 
   },
   address: { 
     type: DataTypes.TEXT, 
@@ -89,13 +88,7 @@ const Recipient = sequelize.define('Recipient', {
 }, {
   timestamps: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at',
-  indexes: [
-    {
-      unique: true,
-      fields: ['email']   // ✅ ensures only ONE unique key for email
-    }
-  ]
+  updatedAt: 'updated_at'
 });
 
 module.exports = Recipient;

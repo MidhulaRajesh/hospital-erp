@@ -7,6 +7,10 @@ import LabTechLogin from './LabTechLogin';
 import LabTechDashboard from './LabTechDashboard';
 import DoctorLogin from './DoctorLogin';
 import DoctorDashboard from './DoctorDashboard';
+import PharmacistLogin from './PharmacistLogin';
+import PharmacistDashboard from './PharmacistDashboard';
+import AdminLogin from './AdminLogin';
+import AdminDashboard from './AdminDashboard';
 import DeceasedDonorEnhanced from './DeceasedDonorEnhanced';
 import OrganTransplant from './OrganTransplant';
 import OrganMatching from './OrganMatching';
@@ -22,6 +26,10 @@ function App() {
   const [labTechData, setLabTechData] = useState(null);
   const [isDoctorAuthenticated, setIsDoctorAuthenticated] = useState(false);
   const [doctorData, setDoctorData] = useState(null);
+  const [isPharmacistAuthenticated, setIsPharmacistAuthenticated] = useState(false);
+  const [pharmacistData, setPharmacistData] = useState(null);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [adminData, setAdminData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Check for existing authentication on app load
@@ -57,6 +65,26 @@ function App() {
           setDoctorData(parsedDoctorData);
           setIsDoctorAuthenticated(true);
         }
+
+        // Check pharmacist authentication
+        const savedPharmacistData = localStorage.getItem('pharmacistData');
+        const pharmacistToken = localStorage.getItem('pharmacistToken');
+        
+        if (savedPharmacistData && pharmacistToken) {
+          const parsedPharmacistData = JSON.parse(savedPharmacistData);
+          setPharmacistData(parsedPharmacistData);
+          setIsPharmacistAuthenticated(true);
+        }
+
+        // Check admin authentication
+        const savedAdminData = localStorage.getItem('adminData');
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (savedAdminData && adminToken) {
+          const parsedAdminData = JSON.parse(savedAdminData);
+          setAdminData(parsedAdminData);
+          setIsAdminAuthenticated(true);
+        }
       } catch (error) {
         console.error('Error checking authentication:', error);
         // Clear invalid data
@@ -66,6 +94,10 @@ function App() {
         localStorage.removeItem('labTechToken');
         localStorage.removeItem('doctorData');
         localStorage.removeItem('doctorToken');
+        localStorage.removeItem('pharmacistData');
+        localStorage.removeItem('pharmacistToken');
+        localStorage.removeItem('adminData');
+        localStorage.removeItem('adminToken');
       } finally {
         setIsLoading(false);
       }
@@ -104,6 +136,26 @@ function App() {
     localStorage.setItem('doctorToken', 'doctor-authenticated');
   };
 
+  // Handle successful pharmacist login
+  const handlePharmacistLoginSuccess = (data) => {
+    setPharmacistData(data);
+    setIsPharmacistAuthenticated(true);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('pharmacistData', JSON.stringify(data));
+    localStorage.setItem('pharmacistToken', 'pharmacist-authenticated');
+  };
+
+  // Handle successful admin login
+  const handleAdminLoginSuccess = (data) => {
+    setAdminData(data);
+    setIsAdminAuthenticated(true);
+    
+    // Save to localStorage for persistence
+    localStorage.setItem('adminData', JSON.stringify(data));
+    localStorage.setItem('adminToken', 'admin-authenticated');
+  };
+
   // Handle patient logout
   const handlePatientLogout = () => {
     setIsAuthenticated(false);
@@ -132,6 +184,26 @@ function App() {
     // Clear localStorage
     localStorage.removeItem('doctorData');
     localStorage.removeItem('doctorToken');
+  };
+
+  // Handle pharmacist logout
+  const handlePharmacistLogout = () => {
+    setIsPharmacistAuthenticated(false);
+    setPharmacistData(null);
+    
+    // Clear localStorage
+    localStorage.removeItem('pharmacistData');
+    localStorage.removeItem('pharmacistToken');
+  };
+
+  // Handle admin logout
+  const handleAdminLogout = () => {
+    setIsAdminAuthenticated(false);
+    setAdminData(null);
+    
+    // Clear localStorage
+    localStorage.removeItem('adminData');
+    localStorage.removeItem('adminToken');
   };
 
   // Show loading spinner while checking authentication
@@ -226,6 +298,52 @@ function App() {
                   onLogout={handleDoctorLogout}
                 /> : 
                 <Navigate to="/doctor-login" replace />
+            } 
+          />
+
+          {/* Pharmacist Login Route */}
+          <Route 
+            path="/pharmacist-login" 
+            element={
+              isPharmacistAuthenticated ? 
+                <Navigate to="/pharmacist-dashboard" replace /> : 
+                <PharmacistLogin onLogin={handlePharmacistLoginSuccess} />
+            } 
+          />
+
+          {/* Pharmacist Dashboard Route - Protected */}
+          <Route 
+            path="/pharmacist-dashboard" 
+            element={
+              isPharmacistAuthenticated && pharmacistData ? 
+                <PharmacistDashboard 
+                  pharmacistData={pharmacistData} 
+                  onLogout={handlePharmacistLogout}
+                /> : 
+                <Navigate to="/pharmacist-login" replace />
+            } 
+          />
+
+          {/* Admin Login Route */}
+          <Route 
+            path="/admin-login" 
+            element={
+              isAdminAuthenticated ? 
+                <Navigate to="/admin-dashboard" replace /> : 
+                <AdminLogin onLogin={handleAdminLoginSuccess} />
+            } 
+          />
+
+          {/* Admin Dashboard Route - Protected */}
+          <Route 
+            path="/admin-dashboard" 
+            element={
+              isAdminAuthenticated && adminData ? 
+                <AdminDashboard 
+                  adminData={adminData} 
+                  onLogout={handleAdminLogout}
+                /> : 
+                <Navigate to="/admin-login" replace />
             } 
           />
 

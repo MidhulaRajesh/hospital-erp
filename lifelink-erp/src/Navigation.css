@@ -70,6 +70,18 @@
   border: none;
 }
 
+.admin-link {
+  background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  font-weight: 600 !important;
+}
+
+.admin-link:hover {
+  background: linear-gradient(135deg, #34495e, #2c3e50) !important;
+  transform: translateX(5px) translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(44, 62, 80, 0.4) !important;
+}
+
 .nav-link.primary:hover {
   background: linear-gradient(135deg, #ff5252 0%, #e53935 100%);
   transform: translateY(-2px);

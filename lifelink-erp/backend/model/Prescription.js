@@ -46,6 +46,26 @@ const Prescription = sequelize.define('Prescription', {
     type: DataTypes.ENUM('Active', 'Completed', 'Cancelled'),
     allowNull: false,
     defaultValue: 'Active'
+  },
+  dispensed_date: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: 'Date when prescription was dispensed by pharmacist'
+  },
+  pharmacist_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'ID of pharmacist who dispensed the prescription'
+  },
+  dispensing_notes: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    comment: 'Notes added by pharmacist during dispensing'
+  },
+  dispensed_medicines: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    comment: 'JSON string of actually dispensed medicines (may differ from prescribed)'
   }
 }, {
   timestamps: true,

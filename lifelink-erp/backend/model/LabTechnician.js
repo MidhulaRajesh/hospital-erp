@@ -8,8 +8,7 @@ const LabTechnician = sequelize.define('LabTechnician', {
   },
   email: {
     type: DataTypes.STRING(100),
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   password: {
     type: DataTypes.STRING(100),
