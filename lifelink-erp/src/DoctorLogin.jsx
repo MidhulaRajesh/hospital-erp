@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaUserMd, FaEnvelope, FaLock, FaSignInAlt, FaUser, FaFlask } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './DoctorLogin.css';
@@ -44,13 +45,13 @@ const DoctorLogin = ({ onLogin }) => {
     <div className="doctor-login-container">
       <div className="doctor-login-card">
         <div className="doctor-login-header">
-          <h1>Doctor Login</h1>
+          <h1><FaUserMd /> Doctor Login</h1>
           <p>Access your patient management portal</p>
         </div>
 
         <form onSubmit={handleSubmit} className="doctor-login-form">
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email"><FaEnvelope /> Email Address</label>
             <input
               type="email"
               id="email"
@@ -64,7 +65,7 @@ const DoctorLogin = ({ onLogin }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password"><FaLock /> Password</label>
             <input
               type="password"
               id="password"
@@ -84,7 +85,7 @@ const DoctorLogin = ({ onLogin }) => {
             className={`doctor-login-btn ${isLoading ? 'loading' : ''}`}
             disabled={isLoading}
           >
-            {isLoading ? 'Signing In...' : 'Sign In'}
+            {isLoading ? <span><FaSignInAlt /> Signing In...</span> : <span><FaSignInAlt /> Sign In</span>}
           </button>
         </form>
 
@@ -95,13 +96,13 @@ const DoctorLogin = ({ onLogin }) => {
               onClick={() => navigate('/patient-login')}
               className="link-btn"
             >
-              Patient Login
+              <FaUser /> Patient Login
             </button>
             <button 
               onClick={() => navigate('/lab-login')}
               className="link-btn"
             >
-              Lab Tech Login
+              <FaFlask /> Lab Tech Login
             </button>
           </div>
         </div>
