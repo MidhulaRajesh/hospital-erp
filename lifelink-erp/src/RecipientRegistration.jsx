@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './RecipientRegistration.css';
 
@@ -155,7 +156,7 @@ const RecipientRegistration = () => {
   return (
     <div className="recipient-registration-container">
       <div className="registration-header">
-        <h1>🫀 Organ Recipient Registration</h1>
+        <h1><FaHeart /> Organ Recipient Registration</h1>
         <p>Register to join the organ transplant waiting list</p>
       </div>
 
