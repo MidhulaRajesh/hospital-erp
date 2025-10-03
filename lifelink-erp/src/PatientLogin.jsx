@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './PatientLogin.css';
@@ -19,7 +20,7 @@ const PatientLogin = ({ setPatientData }) => {
     
     try {
       const res = await axios.post('http://localhost:5000/api/patients/login', formData);
-      setMessage('✅ Login successful!');
+  setMessage(<span style={{color: 'green'}}><FaCheckCircle /> Login successful!</span>);
       
       // Pass the patient data to parent component
       setPatientData(res.data);
@@ -28,11 +29,11 @@ const PatientLogin = ({ setPatientData }) => {
       // due to the authentication state change
     } catch (err) {
       if (err.response?.status === 404) {
-        setMessage('❌ Account not found. Please check your email or register for a new account.');
+        setMessage(<span style={{color: 'red'}}><FaTimesCircle /> Account not found. Please check your email or register for a new account.</span>);
       } else if (err.response?.status === 401) {
-        setMessage('❌ Invalid password. Please try again.');
+        setMessage(<span style={{color: 'red'}}><FaTimesCircle /> Invalid password. Please try again.</span>);
       } else {
-        setMessage('❌ ' + (err.response?.data?.error || 'Login failed. Please try again.'));
+        setMessage(<span style={{color: 'red'}}><FaTimesCircle /> {(err.response?.data?.error || 'Login failed. Please try again.')}</span>);
       }
     } finally {
       setIsLoading(false);
