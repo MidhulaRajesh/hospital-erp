@@ -60,10 +60,12 @@ router.post('/login', async (req, res) => {
     const patientData = {
       id: patient.id,
       patientId: patient.patientId || `LL-${new Date().getFullYear()}-${String(patient.id).padStart(3, '0')}`,
+      full_name: patient.full_name, // Keep original field name for appointment booking
       firstName: firstName,
       lastName: lastName,
       email: patient.email,
-      phone: patient.contact_number || '',
+      contact_number: patient.contact_number, // Keep original field name for appointment booking
+      phone: patient.contact_number || '', // Legacy field for compatibility
       dateOfBirth: patient.dob || '',
       bloodGroup: patient.blood_group || '',
       address: patient.address || '',

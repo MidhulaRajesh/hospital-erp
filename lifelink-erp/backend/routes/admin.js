@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const multer = require('multer');
+const path = require('path');
 const Admin = require('../model/Admin');
 const Doctor = require('../model/Doctor');
 const LabTechnician = require('../model/LabTechnician');
@@ -12,6 +14,35 @@ const DeceasedDonor = require('../model/DeceasedDonor');
 const Recipient = require('../model/Recipient');
 const OrganTransplant = require('../model/OrganTransplant');
 const { Op } = require('sequelize');
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../uploads'));
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.fieldname === 'profile_image') {
+      if (file.mimetype.startsWith('image/')) {
+        cb(null, true);
+      } else {
+        cb(new Error('Only image files are allowed'), false);
+      }
+    } else {
+      cb(null, true);
+    }
+  },
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  }
+});
 
 // POST: Admin registration (super admin only)
 router.post('/register', async (req, res) => {
@@ -609,25 +640,26 @@ router.get('/system-info', async (req, res) => {
 });
 
 // POST: Register doctor (admin only)
-router.post('/register-doctor', async (req, res) => {
+router.post('/register-doctor', upload.single('profile_image'), async (req, res) => {
   try {
     const {
       full_name,
       email,
       password,
-      doctor_id,
+      license_number,
       phone,
       specialization,
-      qualification,
+      qualifications,
       experience_years,
       department,
-      shift_timing
+      consultation_fee,
+      bio
     } = req.body;
 
     // Validate required fields
-    if (!full_name || !email || !password || !doctor_id || !phone || !specialization) {
+    if (!full_name || !email || !password || !license_number || !phone || !specialization || !qualifications || !experience_years) {
       return res.status(400).json({
-        error: 'Required fields: full_name, email, password, doctor_id, phone, specialization'
+        error: 'Required fields: full_name, email, password, license_number, phone, specialization, qualifications, experience_years'
       });
     }
 
@@ -636,32 +668,51 @@ router.post('/register-doctor', async (req, res) => {
       where: {
         [Op.or]: [
           { email: email },
-          { doctor_id: doctor_id }
+          { license_number: license_number }
         ]
       }
     });
 
     if (existingDoctor) {
       return res.status(400).json({
-        error: existingDoctor.email === email ? 'Email already registered' : 'Doctor ID already exists'
+        error: existingDoctor.email === email ? 'Email already registered' : 'License number already exists'
       });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create doctor
+    // Handle profile image upload
+    let profileImagePath = null;
+    if (req.file) {
+      profileImagePath = `/uploads/${req.file.filename}`;
+    }
+
+    // Create doctor with default availability schedule
+    const defaultSchedule = {
+      monday: ['09:00', '17:00'],
+      tuesday: ['09:00', '17:00'], 
+      wednesday: ['09:00', '17:00'],
+      thursday: ['09:00', '17:00'],
+      friday: ['09:00', '17:00'],
+      saturday: ['09:00', '13:00'],
+      sunday: []
+    };
+
     const doctor = await Doctor.create({
       full_name,
       email,
       password: hashedPassword,
-      doctor_id,
+      license_number,
       phone,
       specialization,
-      qualification,
-      experience_years: experience_years || 0,
+      qualifications,
+      experience_years: parseInt(experience_years) || 0,
       department,
-      shift_timing
+      consultation_fee: parseInt(consultation_fee) || 500,
+      profile_image: profileImagePath,
+      availability_schedule: availability_schedule || defaultSchedule,
+      bio: bio || null
     });
 
     const { password: _, ...doctorData } = doctor.toJSON();

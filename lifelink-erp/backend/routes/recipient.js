@@ -471,14 +471,13 @@ router.get('/:id/compatible-donors', async (req, res) => {
   }
 });
 
-// POST - Mark recipient as transplant completed
 router.post('/:id/complete-transplant', async (req, res) => {
   try {
     const { id } = req.params;
     const { 
-      donor_type,    // 'deceased' or 'living'
-      donor_id,      // For deceased donors from our system
-      donor_name,    // For living/external donors
+      donor_type,    
+      donor_id,      
+      donor_name,   
       organ_type, 
       transplant_date, 
       completion_notes, 

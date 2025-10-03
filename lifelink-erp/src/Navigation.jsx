@@ -24,6 +24,9 @@ const Navigation = () => {
             <Link to="/dashboard" className="nav-link">
               📊 Patient Dashboard
             </Link>
+            <Link to="/book-appointment" className="nav-link">
+              📅 Book Appointment
+            </Link>
           </div>
 
           <div className="nav-section">

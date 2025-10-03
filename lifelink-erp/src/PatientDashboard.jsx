@@ -159,10 +159,23 @@ const PatientDashboard = ({ patientData, onLogout }) => {
       <header className="dashboard-header">
         <div className="header-content">
           <h1>Patient Dashboard</h1>
-          <button onClick={handleLogout} className="logout-btn">
-            <span className="logout-icon">↗</span>
-            Logout
-          </button>
+          <div className="header-actions">
+            <button 
+              onClick={() => navigate('/book-appointment')}
+              className="action-btn book-appointment-btn"
+            >
+              Book Appointment
+            </button>
+            <button 
+              onClick={() => navigate('/my-appointments')}
+              className="action-btn view-appointments-btn"
+            >
+              My Appointments
+            </button>
+            <button onClick={handleLogout} className="logout-btn">
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 
@@ -311,9 +324,6 @@ const PatientDashboard = ({ patientData, onLogout }) => {
           <div className="card-header">
             <div className="header-content">
               <div className="header-title">
-                <div className="icon-wrapper">
-                  <span className="reports-icon">📋</span>
-                </div>
                 <div className="title-text">
                   <h2>Lab Reports</h2>
                   <p className="subtitle">Your medical test results and reports</p>
@@ -325,7 +335,6 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                   onClick={downloadAllReports}
                   disabled={downloadingReports.has('all')}
                 >
-                  <span className="btn-icon">📥</span>
                   {downloadingReports.has('all') ? 'Downloading All...' : 'Download All'}
                 </button>
               )}
@@ -338,14 +347,10 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                 {patientData.labReports.map((report, index) => (
                   <div key={index} className="report-card">
                     <div className="report-card-header">
-                      <div className="report-icon">
-                        <span>🧪</span>
-                      </div>
                       <div className="report-title-section">
                         <h3 className="report-title">{report.report_name}</h3>
                         <div className="report-meta">
                           <span className="report-date">
-                            <span className="date-icon">📅</span>
                             {new Date(report.test_date).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
@@ -364,7 +369,6 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                       <div className="report-info-grid">
                         <div className="info-item">
                           <span className="info-label">
-                            <span className="label-icon">👨‍⚕️</span>
                             Technician
                           </span>
                           <span className="info-value">{report.technician_name}</span>
@@ -373,7 +377,6 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                         {report.remarks && (
                           <div className="info-item remarks">
                             <span className="info-label">
-                              <span className="label-icon">📝</span>
                               Remarks
                             </span>
                             <span className="info-value">{report.remarks}</span>
