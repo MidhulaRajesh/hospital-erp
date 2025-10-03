@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaHeart, FaSearch, FaClipboardList, FaExclamationTriangle, FaChartBar, FaHospital, FaCheckCircle, FaSyncAlt, FaTrashAlt, FaArrowLeft, FaArrowRight, FaRegEdit, FaBolt, FaTint, FaTimes, FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './OrganTransplant.css';
 
 const OrganTransplant = () => {
@@ -302,7 +303,7 @@ const OrganTransplant = () => {
   return (
     <div className="organ-transplant-container">
       <div className="transplant-header">
-        <h1>🫀 Organ Transplant Coordination System</h1>
+  <h1><FaHeart /> Organ Transplant Coordination System</h1>
         <p>Preventing organ wastage through intelligent matching</p>
       </div>
 
@@ -311,25 +312,25 @@ const OrganTransplant = () => {
           className={`tab-btn ${activeTab === 'matching' ? 'active' : ''}`}
           onClick={() => setActiveTab('matching')}
         >
-          🔍 Organ Matching
+          <FaSearch /> Organ Matching
         </button>
         <button 
           className={`tab-btn ${activeTab === 'records' ? 'active' : ''}`}
           onClick={() => setActiveTab('records')}
         >
-          📋 Transplant Records
+          <FaClipboardList /> Transplant Records
         </button>
         <button 
           className={`tab-btn ${activeTab === 'alerts' ? 'active' : ''}`}
           onClick={() => setActiveTab('alerts')}
         >
-          ⚠️ Organ Alerts {expiringOrgans.length > 0 && <span className="alert-badge">{expiringOrgans.length}</span>}
+          <FaExclamationTriangle /> Organ Alerts {expiringOrgans.length > 0 && <span className="alert-badge">{expiringOrgans.length}</span>}
         </button>
         <button 
           className={`tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
           onClick={() => setActiveTab('analytics')}
         >
-          📊 Analytics
+          <FaChartBar /> Analytics
         </button>
       </div>
 
@@ -345,7 +346,7 @@ const OrganTransplant = () => {
                   const availableForMatching = donor.availableOrgans.filter(organ => !isOrganTransplanted(donor.donorId, organ));
                   return (
                   <div key={donor.donorId} className={`donor-card ${availableForMatching.length === 0 ? 'all-transplanted' : ''}`}>
-                    <div className="deceased-donor-indicator">💔 Deceased Donor</div>
+                    <div className="deceased-donor-indicator"><FaHeart /> Deceased Donor</div>
                     {availableForMatching.length === 0 && (
                       <div className="transplant-success-indicator">
                         All organs successfully transplanted
@@ -371,7 +372,7 @@ const OrganTransplant = () => {
                                 {organ}
                                 {transplantInfo && (
                                   <span className="transplant-status">
-                                    {transplantInfo.status === 'Transplanted' ? ' ✓' : ' ⏳'}
+                                    {transplantInfo.status === 'Transplanted' ? <FaCheckCircle /> : <FaSyncAlt />}
                                   </span>
                                 )}
                               </span>
@@ -436,16 +437,16 @@ const OrganTransplant = () => {
                     <strong> Location:</strong> {selectedDonor.location}
                   </div>
                   <div className="no-matches-message">
-                    <div className="no-matches-icon">🔍</div>
+                    <div className="no-matches-icon"><FaSearch /></div>
                     <h3>No Compatible Recipients Available</h3>
                     {searchStats && (
                       <div className="search-stats">
                         <p><strong>Search Results:</strong></p>
                         <ul>
-                          <li>📊 Total recipients checked: <strong>{searchStats.totalRecipientsFound}</strong></li>
-                          <li>🫀 Organ type searched: <strong>{searchStats.organType}</strong></li>
-                          <li>✅ Compatible matches found: <strong>{searchStats.compatibleMatches}</strong></li>
-                          <li>⏰ Search performed at: <strong>{searchStats.searchTime}</strong></li>
+                          <li><FaChartBar /> Total recipients checked: <strong>{searchStats.totalRecipientsFound}</strong></li>
+                          <li><FaHeart /> Organ type searched: <strong>{searchStats.organType}</strong></li>
+                          <li><FaCheckCircle /> Compatible matches found: <strong>{searchStats.compatibleMatches}</strong></li>
+                          <li><FaSyncAlt /> Search performed at: <strong>{searchStats.searchTime}</strong></li>
                         </ul>
                       </div>
                     )}
@@ -599,7 +600,7 @@ const OrganTransplant = () => {
                               onClick={() => completeDeceasedDonorTransplant(record)}
                               title="Complete deceased donor transplant"
                             >
-                              🏥 Complete Surgery
+                              <FaHospital /> Complete Surgery
                             </button>
                           )}
                         </div>
@@ -615,10 +616,10 @@ const OrganTransplant = () => {
 
       {activeTab === 'alerts' && (
         <div className="alerts-section">
-          <h2>⚠️ Organ Waste Prevention Alerts</h2>
+          <h2><FaExclamationTriangle /> Organ Waste Prevention Alerts</h2>
           {expiringOrgans.length === 0 ? (
             <div className="no-alerts">
-              <div className="no-alerts-icon">✅</div>
+              <div className="no-alerts-icon"><FaCheckCircle /></div>
               <h3>No Critical Alerts</h3>
               <p>All available organs have sufficient time remaining or are properly allocated.</p>
             </div>
@@ -673,7 +674,7 @@ const OrganTransplant = () => {
                         className="urgent-match-btn"
                         onClick={() => findMatches(organ.donorId, organ.organType)}
                       >
-                        🚨 Urgent Match
+                        <FaExclamationTriangle /> Urgent Match
                       </button>
                       <button 
                         className="mark-wasted-btn"
@@ -684,7 +685,7 @@ const OrganTransplant = () => {
                           }
                         }}
                       >
-                        ❌ Mark Expired
+                        <FaTrashAlt /> Mark Expired
                       </button>
                     </div>
                   </div>
@@ -697,7 +698,7 @@ const OrganTransplant = () => {
 
       {activeTab === 'analytics' && (
         <div className="analytics-section">
-          <h2>📊 Organ Utilization Analytics</h2>
+          <h2><FaChartBar /> Organ Utilization Analytics</h2>
           {utilizationStats && (
             <>
               <div className="overall-stats">
@@ -772,17 +773,17 @@ const OrganTransplant = () => {
               </div>
               
               <div className="wastage-analysis">
-                <h3>🗑️ Waste Analysis</h3>
+                <h3><FaTrashAlt /> Waste Analysis</h3>
                 <div className="waste-stats">
                   <div className="waste-card">
-                    <div className="waste-icon">📉</div>
+                    <div className="waste-icon"><FaThumbsDown /></div>
                     <div className="waste-content">
                       <div className="waste-number">{utilizationStats.wastageAnalysis.wastePercentage}%</div>
                       <div className="waste-label">Overall Waste Rate</div>
                     </div>
                   </div>
                   <div className="waste-card">
-                    <div className="waste-icon">⚠️</div>
+                    <div className="waste-icon"><FaExclamationTriangle /></div>
                     <div className="waste-content">
                       <div className="waste-number">{utilizationStats.wastageAnalysis.organsAtRisk}</div>
                       <div className="waste-label">Organ Types at Risk</div>
