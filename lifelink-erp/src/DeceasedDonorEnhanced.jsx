@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaUser, FaHeart, FaHospital, FaClipboardList, FaSearch, FaChartBar, FaArrowLeft, FaArrowRight, FaTimes, FaRegEdit, FaFileMedical, FaCheckCircle, FaSyncAlt } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./DeceasedEnhanced.css";
@@ -192,7 +193,7 @@ const DeceasedDonorEnhanced = () => {
       setLoading(false);
       
       if (res.data && res.data.success) {
-        alert("🫀 Enhanced Deceased Donor Registration Successful! Redirecting to organ matching...");
+  alert("Enhanced Deceased Donor Registration Successful! Redirecting to organ matching...");
         
         if (res.data.donor && res.data.donor.id) {
           navigate(`/organ-matching?donorId=${res.data.donor.id}&autoMatch=true`);
@@ -220,7 +221,7 @@ const DeceasedDonorEnhanced = () => {
       case 1:
         return (
           <div className="step-content">
-            <h3>👤 Basic Information & Legal Details</h3>
+            <h3><FaUser /> Basic Information & Legal Details</h3>
             <div className="form-grid">
               <div className="form-group">
                 <label>Full Name *</label>
@@ -334,7 +335,7 @@ const DeceasedDonorEnhanced = () => {
       case 2:
         return (
           <div className="step-content">
-            <h3>🩸 Medical Information & Organ Details</h3>
+            <h3><FaHeart /> Medical Information & Organ Details</h3>
             <div className="form-grid">
               <div className="form-group">
                 <label>Blood Group *</label>
@@ -492,7 +493,7 @@ const DeceasedDonorEnhanced = () => {
                         onChange={() => handleOrganChange(organ)}
                       />
                       <label htmlFor={organ} className="organ-label">
-                        <span className="organ-icon">🫀</span>
+                        <span className="organ-icon"><FaHeart /></span>
                         {organ}
                       </label>
                     </div>
@@ -507,7 +508,7 @@ const DeceasedDonorEnhanced = () => {
       case 3:
         return (
           <div className="step-content">
-            <h3>🏥 Hospital & Contact Information</h3>
+            <h3><FaHospital /> Hospital & Contact Information</h3>
             <div className="form-grid">
               <div className="form-group">
                 <label>Hospital Name *</label>
@@ -649,7 +650,7 @@ const DeceasedDonorEnhanced = () => {
       case 4:
         return (
           <div className="step-content">
-            <h3>📋 Required Documents</h3>
+            <h3><FaClipboardList /> Required Documents</h3>
             <div className="form-grid">
               <div className="form-group">
                 <label>Medical Reports</label>
@@ -704,7 +705,7 @@ const DeceasedDonorEnhanced = () => {
             </div>
 
             <div className="enhanced-summary">
-              <h4>🔍 Enhanced Matching Summary</h4>
+              <h4><FaSearch /> Enhanced Matching Summary</h4>
               <div className="summary-grid">
                 <div className="summary-item">
                   <strong>Physical Profile:</strong>
@@ -739,7 +740,7 @@ const DeceasedDonorEnhanced = () => {
   return (
     <div className="deceased-donor-container">
       <div className="registration-header">
-        <h1>🫀 Enhanced Deceased Donor Registration</h1>
+  <h1><FaHeart /> Enhanced Deceased Donor Registration</h1>
         <p>Comprehensive organ donation registration for optimal matching</p>
         
         <div className="progress-bar">
@@ -772,7 +773,7 @@ const DeceasedDonorEnhanced = () => {
         <div className="form-actions">
           {currentStep > 1 && (
             <button type="button" onClick={prevStep} className="prev-btn">
-              ← Previous
+              <FaArrowLeft /> Previous
             </button>
           )}
           
@@ -782,16 +783,16 @@ const DeceasedDonorEnhanced = () => {
               onClick={() => navigate('/')} 
               className="cancel-btn"
             >
-              Cancel
+              <FaTimes /> Cancel
             </button>
             
             {currentStep < 4 ? (
               <button type="button" onClick={nextStep} className="next-btn">
-                Next →
+                Next <FaArrowRight />
               </button>
             ) : (
               <button type="submit" disabled={loading} className="submit-btn">
-                {loading ? '🔄 Processing...' : '🫀 Complete Registration & Find Matches'}
+                {loading ? <><FaSyncAlt /> Processing...</> : <><FaHeart /> Complete Registration & Find Matches</>}
               </button>
             )}
           </div>
