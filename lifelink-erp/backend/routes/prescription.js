@@ -170,4 +170,262 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Pharmacist Routes for Prescription Search and Management
+
+// GET: Search prescriptions by patient name or ID (for pharmacists)
+router.get('/pharmacy/search', async (req, res) => {
+  try {
+    const { query } = req.query;
+    
+    if (!query) {
+      return res.status(400).json({ error: 'Search query (patient name or ID) is required' });
+    }
+
+    let prescriptions;
+    
+    // Check if query is a number (patient ID) or string (patient name)
+    if (!isNaN(query)) {
+      // Search by patient ID
+      prescriptions = await Prescription.findAll({
+        where: { patient_id: parseInt(query) },
+        include: [
+          {
+            model: Patient,
+            as: 'patient',
+            attributes: ['id', 'full_name', 'date_of_birth', 'gender', 'contact_number', 'blood_group']
+          },
+          {
+            model: Doctor,
+            as: 'doctor',
+            attributes: ['id', 'full_name', 'specialization', 'license_number', 'phone']
+          }
+        ],
+        order: [['prescribed_date', 'DESC']]
+      });
+    } else {
+      // Search by patient name (partial match)
+      const { Op } = require('sequelize');
+      prescriptions = await Prescription.findAll({
+        include: [
+          {
+            model: Patient,
+            as: 'patient',
+            attributes: ['id', 'full_name', 'date_of_birth', 'gender', 'contact_number', 'blood_group'],
+            where: {
+              full_name: {
+                [Op.like]: `%${query}%`
+              }
+            }
+          },
+          {
+            model: Doctor,
+            as: 'doctor',
+            attributes: ['id', 'full_name', 'specialization', 'license_number', 'phone']
+          }
+        ],
+        order: [['prescribed_date', 'DESC']]
+      });
+    }
+
+    // Parse medicines JSON for each prescription
+    const processedPrescriptions = prescriptions.map(prescription => {
+      const prescriptionData = prescription.toJSON();
+      try {
+        prescriptionData.medicines = JSON.parse(prescriptionData.medicines);
+      } catch (e) {
+        prescriptionData.medicines = prescriptionData.medicines;
+      }
+      return prescriptionData;
+    });
+
+    console.log(`💊 Pharmacist search: Found ${prescriptions.length} prescriptions for query "${query}"`);
+
+    res.json({
+      success: true,
+      query: query,
+      prescriptions: processedPrescriptions,
+      count: prescriptions.length
+    });
+
+  } catch (error) {
+    console.error('Error searching prescriptions:', error);
+    res.status(500).json({ error: 'Failed to search prescriptions' });
+  }
+});
+
+// GET: Get all recent prescriptions (for pharmacy dashboard)
+router.get('/pharmacy/recent', async (req, res) => {
+  try {
+    const { limit = 20, status = 'Active' } = req.query;
+
+    const prescriptions = await Prescription.findAll({
+      where: { status },
+      include: [
+        {
+          model: Patient,
+          as: 'patient',
+          attributes: ['id', 'full_name', 'contact_number', 'blood_group']
+        },
+        {
+          model: Doctor,
+          as: 'doctor',
+          attributes: ['id', 'full_name', 'specialization']
+        }
+      ],
+      order: [['prescribed_date', 'DESC']],
+      limit: parseInt(limit)
+    });
+
+    const processedPrescriptions = prescriptions.map(prescription => {
+      const prescriptionData = prescription.toJSON();
+      try {
+        prescriptionData.medicines = JSON.parse(prescriptionData.medicines);
+      } catch (e) {
+        prescriptionData.medicines = prescriptionData.medicines;
+      }
+      return prescriptionData;
+    });
+
+    res.json({
+      success: true,
+      prescriptions: processedPrescriptions,
+      count: prescriptions.length
+    });
+
+  } catch (error) {
+    console.error('Error fetching recent prescriptions:', error);
+    res.status(500).json({ error: 'Failed to fetch recent prescriptions' });
+  }
+});
+
+// PUT: Mark prescription as dispensed (for pharmacists)
+router.put('/pharmacy/dispense/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { pharmacist_id, notes, dispensed_medicines } = req.body;
+
+    const prescription = await Prescription.findByPk(id, {
+      include: [
+        { model: Patient, as: 'patient', attributes: ['full_name'] },
+        { model: Doctor, as: 'doctor', attributes: ['full_name'] }
+      ]
+    });
+
+    if (!prescription) {
+      return res.status(404).json({ error: 'Prescription not found' });
+    }
+
+    if (prescription.status === 'Completed') {
+      return res.status(400).json({ error: 'Prescription already dispensed' });
+    }
+
+    // Update prescription status and add dispensing information
+    await prescription.update({
+      status: 'Completed',
+      dispensed_date: new Date(),
+      pharmacist_id: pharmacist_id,
+      dispensing_notes: notes,
+      dispensed_medicines: dispensed_medicines ? JSON.stringify(dispensed_medicines) : null
+    });
+
+    console.log(`💊 Prescription dispensed: ID ${id} for patient ${prescription.patient?.full_name}`);
+
+    res.json({
+      success: true,
+      message: 'Prescription marked as dispensed',
+      prescription: {
+        id: prescription.id,
+        patient_name: prescription.patient?.full_name,
+        doctor_name: prescription.doctor?.full_name,
+        status: prescription.status,
+        dispensed_date: prescription.dispensed_date
+      }
+    });
+
+  } catch (error) {
+    console.error('Error dispensing prescription:', error);
+    res.status(500).json({ error: 'Failed to dispense prescription' });
+  }
+});
+
+// GET: Prescription statistics for pharmacy dashboard
+router.get('/pharmacy/stats', async (req, res) => {
+  try {
+    const { Op } = require('sequelize');
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+
+    // Get various statistics
+    const stats = {
+      today: {
+        total: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfDay
+            }
+          }
+        }),
+        dispensed: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfDay
+            },
+            status: 'Completed'
+          }
+        }),
+        pending: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfDay
+            },
+            status: 'Active'
+          }
+        })
+      },
+      week: {
+        total: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfWeek
+            }
+          }
+        }),
+        dispensed: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfWeek
+            },
+            status: 'Completed'
+          }
+        }),
+        pending: await Prescription.count({
+          where: {
+            prescribed_date: {
+              [Op.gte]: startOfWeek
+            },
+            status: 'Active'
+          }
+        })
+      },
+      overall: {
+        total: await Prescription.count(),
+        active: await Prescription.count({ where: { status: 'Active' } }),
+        completed: await Prescription.count({ where: { status: 'Completed' } }),
+        cancelled: await Prescription.count({ where: { status: 'Cancelled' } })
+      }
+    };
+
+    res.json({
+      success: true,
+      stats: stats,
+      generated_at: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Error fetching pharmacy statistics:', error);
+    res.status(500).json({ error: 'Failed to fetch statistics' });
+  }
+});
+
 module.exports = router;

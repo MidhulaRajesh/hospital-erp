@@ -21,8 +21,19 @@ const LabReport = require('./model/LabReport');
 const LabTechnician = require('./model/LabTechnician');
 const Doctor = require('./model/Doctor');
 const Prescription = require('./model/Prescription');
+const DeceasedDonor = require('./model/DeceasedDonor');
+const Recipient = require('./model/Recipient');
+const OrganTransplant = require('./model/OrganTransplant');
+const Pharmacist = require('./model/Pharmacist');
+const Admin = require('./model/Admin');
 
-sequelize.sync({ alter: true })
+// Setup model associations
+if (OrganTransplant.defineAssociations) {
+  OrganTransplant.defineAssociations();
+}
+
+// Use { alter: true } to modify tables without losing data, or remove force entirely
+sequelize.sync({ alter: true })  // This will update table structure without dropping data
   .then(() => {
     console.log('All models were synchronized successfully.');
   })
@@ -36,6 +47,11 @@ const labTechnicianRouter = require('./routes/labTechnician');
 const labTechnicianUploadRouter = require('./routes/labTechnicianUpload');
 const doctorRouter = require('./routes/doctor');
 const prescriptionRouter = require('./routes/prescription');
+const deceasedDonorRouter = require('./routes/deceasedDonor');
+const recipientRouter = require('./routes/recipient');
+const organTransplantRouter = require('./routes/organTransplant');
+const pharmacistRouter = require('./routes/pharmacist');
+const adminRouter = require('./routes/admin');
 
 // Patient routes for frontend integration
 app.use('/api/patients', patientRouter);  // Main patient API routes
@@ -50,6 +66,21 @@ app.use('/api/doctors', doctorRouter);
 
 // Prescription routes
 app.use('/api/prescriptions', prescriptionRouter);
+
+// Deceased Donor routes
+app.use('/api/deceased-donor', deceasedDonorRouter);
+
+// Recipient routes
+app.use('/api/recipient', recipientRouter);
+
+// Organ Transplant routes
+app.use('/api/organ-transplant', organTransplantRouter);
+
+// Pharmacist routes
+app.use('/api/pharmacist', pharmacistRouter);
+
+// Admin routes
+app.use('/api/admin', adminRouter);
 
 // Test route to verify backend is working
 app.get('/api/test', (req, res) => {

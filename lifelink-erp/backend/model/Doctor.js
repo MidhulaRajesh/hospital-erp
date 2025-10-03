@@ -8,8 +8,7 @@ const Doctor = sequelize.define('Doctor', {
   },
   email: {
     type: DataTypes.STRING(100),
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   password: {
     type: DataTypes.STRING(100),
@@ -21,8 +20,7 @@ const Doctor = sequelize.define('Doctor', {
   },
   license_number: {
     type: DataTypes.STRING(50),
-    allowNull: true,
-    unique: true
+    allowNull: true
   },
   phone: {
     type: DataTypes.STRING(20),
