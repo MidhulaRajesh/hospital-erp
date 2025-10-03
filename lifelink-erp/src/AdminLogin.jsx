@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaLock, FaShieldAlt, FaEnvelope, FaExclamationTriangle, FaRocket, FaHospital } from 'react-icons/fa';
 import './AdminLogin.css';
 
 const AdminLogin = ({ onLogin }) => {
@@ -51,19 +52,19 @@ const AdminLogin = ({ onLogin }) => {
     <div className="admin-login-container">
       <div className="admin-login-card">
         <div className="admin-login-header">
-          <h2>🔐 Admin Login</h2>
+          <h2><FaShieldAlt /> Admin Login</h2>
           <p>Hospital Management System</p>
         </div>
         
         {error && (
           <div className="error-message">
-            ⚠️ {error}
+            <FaExclamationTriangle /> {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="admin-login-form">
           <div className="form-group">
-            <label htmlFor="email">📧 Email Address</label>
+            <label htmlFor="email"><FaEnvelope /> Email Address</label>
             <input
               type="email"
               id="email"
@@ -77,7 +78,7 @@ const AdminLogin = ({ onLogin }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">🔒 Password</label>
+            <label htmlFor="password"><FaLock /> Password</label>
             <input
               type="password"
               id="password"
@@ -102,14 +103,14 @@ const AdminLogin = ({ onLogin }) => {
               </>
             ) : (
               <>
-                🚀 Sign In
+                <FaRocket /> Sign In
               </>
             )}
           </button>
         </form>
 
         <div className="admin-login-footer">
-          <p>🏥 LifeLink Hospital ERP System</p>
+          <p><FaHospital /> LifeLink Hospital ERP System</p>
           <small>Secure Administrative Access</small>
         </div>
       </div>
