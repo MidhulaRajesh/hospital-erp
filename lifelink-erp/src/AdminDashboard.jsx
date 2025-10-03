@@ -14,6 +14,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
   const [loading, setLoading] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(null);
   const [formData, setFormData] = useState({});
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -189,12 +190,19 @@ const AdminDashboard = ({ adminData, onLogout }) => {
         pharmacist: '/api/admin/register-pharmacist'
       }[staffType];
 
+      // Use FormData for file uploads
+      const formDataToSend = new FormData();
+      
+      // Add all form fields to FormData
+      Object.keys(formData).forEach(key => {
+        if (formData[key] !== null && formData[key] !== undefined) {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
       const response = await fetch(`http://localhost:5000${endpoint}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+        body: formDataToSend // Don't set Content-Type header for FormData
       });
 
       const data = await response.json();
@@ -203,6 +211,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
         alert(`✅ ${staffType.charAt(0).toUpperCase() + staffType.slice(1)} registered successfully!`);
         setShowRegisterForm(null);
         setFormData({});
+        setUploadedFile(null);
         fetchStaffData();
         fetchDashboardStats();
       } else {
@@ -224,19 +233,36 @@ const AdminDashboard = ({ adminData, onLogout }) => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedFile(file);
+      setFormData(prev => ({
+        ...prev,
+        profile_image: file
+      }));
+    }
+  };
+
   const renderRegisterForm = (staffType) => {
     const fields = {
       doctor: [
         { name: 'full_name', label: 'Full Name', type: 'text', required: true },
         { name: 'email', label: 'Email', type: 'email', required: true },
         { name: 'password', label: 'Password', type: 'password', required: true },
-        { name: 'doctor_id', label: 'Doctor ID', type: 'text', required: true },
+        { name: 'license_number', label: 'License Number', type: 'text', required: true },
         { name: 'phone', label: 'Phone', type: 'tel', required: true },
-        { name: 'specialization', label: 'Specialization', type: 'text', required: true },
-        { name: 'qualification', label: 'Qualification', type: 'text', required: false },
-        { name: 'experience_years', label: 'Experience (Years)', type: 'number', required: false },
+        { name: 'specialization', label: 'Specialization', type: 'select', required: true, options: [
+          'Cardiologist', 'Neurologist', 'Pediatrician', 'Orthopedic Surgeon', 
+          'Dermatologist', 'General Physician', 'Gynecologist', 'Psychiatrist',
+          'Ophthalmologist', 'ENT Specialist', 'Urologist', 'Oncologist'
+        ]},
+        { name: 'qualifications', label: 'Qualifications (MBBS, MD, etc.)', type: 'text', required: true },
+        { name: 'experience_years', label: 'Experience (Years)', type: 'number', required: true },
         { name: 'department', label: 'Department', type: 'text', required: false },
-        { name: 'shift_timing', label: 'Shift Timing', type: 'text', required: false }
+        { name: 'consultation_fee', label: 'Consultation Fee (₹)', type: 'number', required: true },
+        { name: 'profile_image', label: 'Profile Image', type: 'file', required: false, accept: 'image/*' },
+        { name: 'bio', label: 'Biography', type: 'textarea', required: false }
       ],
       labtechnician: [
         { name: 'full_name', label: 'Full Name', type: 'text', required: true },
@@ -288,15 +314,49 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                   <label htmlFor={field.name}>
                     {field.label} {field.required && <span className="required">*</span>}
                   </label>
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    value={formData[field.name] || ''}
-                    onChange={handleInputChange}
-                    required={field.required}
-                    placeholder={`Enter ${field.label.toLowerCase()}`}
-                  />
+                  {field.type === 'select' ? (
+                    <select
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name] || ''}
+                      onChange={handleInputChange}
+                      required={field.required}
+                    >
+                      <option value="">Select {field.label}</option>
+                      {field.options?.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  ) : field.type === 'textarea' ? (
+                    <textarea
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name] || ''}
+                      onChange={handleInputChange}
+                      required={field.required}
+                      placeholder={`Enter ${field.label.toLowerCase()}`}
+                      rows="3"
+                    />
+                  ) : field.type === 'file' ? (
+                    <input
+                      type="file"
+                      id={field.name}
+                      name={field.name}
+                      onChange={handleFileChange}
+                      required={field.required}
+                      accept={field.accept}
+                    />
+                  ) : (
+                    <input
+                      type={field.type}
+                      id={field.name}
+                      name={field.name}
+                      value={field.type === 'file' ? '' : (formData[field.name] || '')}
+                      onChange={handleInputChange}
+                      required={field.required}
+                      placeholder={`Enter ${field.label.toLowerCase()}`}
+                    />
+                  )}
                 </div>
               ))}
             </div>

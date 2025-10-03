@@ -37,18 +37,18 @@ const Admin = sequelize.define('Admin', {
     type: DataTypes.JSON,
     allowNull: true,
     defaultValue: {
-      // Staff Management
+    
       manage_doctors: true,
       manage_lab_techs: true,
       manage_pharmacists: true,
       manage_admins: false,
       
-      // Patient Management
+    
       view_patients: true,
       manage_patients: true,
       view_medical_records: true,
       
-      // Hospital Operations
+     
       manage_prescriptions: true,
       manage_lab_reports: true,
       manage_organ_transplants: true,

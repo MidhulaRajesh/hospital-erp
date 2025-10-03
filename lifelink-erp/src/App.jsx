@@ -16,6 +16,8 @@ import OrganTransplant from './OrganTransplant';
 import OrganMatching from './OrganMatching';
 import RecipientDashboard from './RecipientDashboard';
 import RecipientRegistration from './RecipientRegistration';
+import AppointmentBooking from './AppointmentBooking';
+import PatientAppointments from './PatientAppointments';
 import Navigation from './Navigation';
 import './App.css';
 
@@ -372,6 +374,18 @@ function App() {
           <Route 
             path="/deceased-donor-registration" 
             element={<DeceasedDonorEnhanced />} 
+          />
+
+          {/* Appointment Booking Route */}
+          <Route 
+            path="/book-appointment" 
+            element={<AppointmentBooking />} 
+          />
+
+          {/* Patient Appointments Route */}
+          <Route 
+            path="/my-appointments" 
+            element={<PatientAppointments />} 
           />
           
           {/* Default Route - Show Navigation */}
