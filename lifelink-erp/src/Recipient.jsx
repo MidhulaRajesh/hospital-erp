@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import axios from "axios";
 import "./Recipient.css";
 
@@ -47,11 +48,11 @@ const RecipientForm = () => {
       const res = await axios.post("http://localhost:5000/api/recipient", data, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      alert("Recipient Registered ✅");
+  alert("Recipient Registered "+ String.fromCharCode(0x2714)); // FaCheckCircle for UI, checkmark for alert
       console.log(res.data);
     } catch (err) {
       console.error(err);
-      alert("Error registering recipient ❌");
+  alert("Error registering recipient " + String.fromCharCode(0x274C)); // FaTimesCircle for UI, cross for alert
     }
   };
 

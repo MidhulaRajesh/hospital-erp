@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaShieldAlt, FaUser, FaBullseye, FaHospital, FaEnvelope, FaSignOutAlt, FaChartBar, FaUsers, FaUserMd, FaFlask, FaPills, FaHeart, FaCog, FaClipboardList, FaRocket, FaExclamationCircle, FaTimes, FaCheckCircle, FaRegEdit, FaSearch, FaLungs, FaListAlt, FaChartLine, FaClipboardCheck } from 'react-icons/fa';
 import './AdminDashboard.css';
 
 const AdminDashboard = ({ adminData, onLogout }) => {
@@ -389,16 +390,16 @@ const AdminDashboard = ({ adminData, onLogout }) => {
     <div className="admin-dashboard">
       <div className="admin-header">
         <div className="admin-info">
-          <h2>🛡️ Admin Dashboard</h2>
+          <h2><FaShieldAlt /> Admin Dashboard</h2>
           <div className="admin-details">
-            <p><strong>👤 {admin.full_name}</strong></p>
-            <p>🎯 {admin.role}</p>
-            <p>🏥 {admin.department}</p>
-            <p>📧 {admin.email}</p>
+            <p><strong><FaUser /> {admin.full_name}</strong></p>
+            <p><FaBullseye /> {admin.role}</p>
+            <p><FaHospital /> {admin.department}</p>
+            <p><FaEnvelope /> {admin.email}</p>
           </div>
         </div>
         <button onClick={onLogout} className="logout-btn">
-          🚪 Logout
+          <FaSignOutAlt /> Logout
         </button>
       </div>
 
@@ -407,88 +408,88 @@ const AdminDashboard = ({ adminData, onLogout }) => {
           className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          📊 Overview
+          <FaChartBar /> Overview
         </button>
         <button 
           className={`tab-btn ${activeTab === 'patients' ? 'active' : ''}`}
           onClick={() => setActiveTab('patients')}
         >
-          👥 Patients
+          <FaUsers /> Patients
         </button>
         <button 
           className={`tab-btn ${activeTab === 'doctors' ? 'active' : ''}`}
           onClick={() => setActiveTab('doctors')}
         >
-          👨‍⚕️ Doctors
+          <FaUserMd /> Doctors
         </button>
         <button 
           className={`tab-btn ${activeTab === 'labtechs' ? 'active' : ''}`}
           onClick={() => setActiveTab('labtechs')}
         >
-          🧪 Lab Technicians
+          <FaFlask /> Lab Technicians
         </button>
         <button 
           className={`tab-btn ${activeTab === 'pharmacists' ? 'active' : ''}`}
           onClick={() => setActiveTab('pharmacists')}
         >
-          💊 Pharmacists
+          <FaPills /> Pharmacists
         </button>
         <button 
           className={`tab-btn ${activeTab === 'donors' ? 'active' : ''}`}
           onClick={() => setActiveTab('donors')}
         >
-          🫀 Donors
+          <FaHeart /> Donors
         </button>
         <button 
           className={`tab-btn ${activeTab === 'recipients' ? 'active' : ''}`}
           onClick={() => setActiveTab('recipients')}
         >
-          🏥 Recipients
+          <FaHospital /> Recipients
         </button>
         <button 
           className={`tab-btn ${activeTab === 'system' ? 'active' : ''}`}
           onClick={() => setActiveTab('system')}
         >
-          ⚙️ System
+          <FaCog /> System
         </button>
       </div>
 
       {activeTab === 'overview' && stats && (
         <div className="overview-section">
-          <h3>📈 Hospital Management Overview</h3>
+          <h3><FaChartLine /> Hospital Management Overview</h3>
           
           <div className="stats-grid">
             <div className="stat-card total">
-              <h4>👥 Total Users</h4>
+              <h4><FaUsers /> Total Users</h4>
               <span className="number">{stats.total_users}</span>
               <small>All system users</small>
             </div>
             
             <div className="stat-card patients">
-              <h4>🏥 Patients</h4>
+              <h4><FaHospital /> Patients</h4>
               <span className="number">{stats.total_patients}</span>
               <small>{stats.today?.new_patients || 0} today</small>
             </div>
             
             <div className="stat-card staff">
-              <h4>👨‍⚕️ Staff</h4>
+              <h4><FaUserMd /> Staff</h4>
               <span className="number">{stats.total_staff}</span>
               <small>Medical professionals</small>
             </div>
             
             <div className="stat-card activity">
-              <h4>📋 Recent Activity</h4>
+              <h4><FaClipboardList /> Recent Activity</h4>
               <div className="activity-stats">
-                <small>🆕 {stats.recent_activity?.new_patients || 0} new patients</small>
-                <small>💊 {stats.recent_activity?.new_prescriptions || 0} prescriptions</small>
-                <small>🧪 {stats.recent_activity?.new_lab_reports || 0} lab reports</small>
+                <small><FaCheckCircle /> {stats.recent_activity?.new_patients || 0} new patients</small>
+                <small><FaPills /> {stats.recent_activity?.new_prescriptions || 0} prescriptions</small>
+                <small><FaFlask /> {stats.recent_activity?.new_lab_reports || 0} lab reports</small>
               </div>
             </div>
           </div>
 
           <div className="detailed-stats">
             <div className="staff-breakdown">
-              <h4>👨‍⚕️ Staff Breakdown</h4>
+              <h4><FaUserMd /> Staff Breakdown</h4>
               <div className="breakdown-grid">
                 <div className="breakdown-item">
                   <span className="role">Doctors</span>
@@ -514,7 +515,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
             </div>
 
             <div className="stat-card organ-transplants">
-              <h4>🫀 Organ Transplant System</h4>
+              <h4><FaHeart /> Organ Transplant System</h4>
               <div className="breakdown">
                 <div className="breakdown-item">
                   <span className="role">Deceased Donors</span>
@@ -540,7 +541,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'patients' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>👥 Patient Management</h3>
+            <h3><FaUsers /> Patient Management</h3>
             <div className="search-controls">
               <input
                 type="text"
@@ -562,7 +563,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                 }}
                 disabled={loading}
               >
-                🔍 {loading ? 'Loading...' : 'Search'}
+                <FaSearch /> {loading ? 'Loading...' : 'Search'}
               </button>
               <button 
                 className="clear-btn"
@@ -571,7 +572,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                   fetchPatients();
                 }}
               >
-                🔄 Clear
+                <FaRocket /> Clear
               </button>
             </div>
           </div>
@@ -583,7 +584,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
           ) : (
             <div className="staff-table">
               <div className="patient-count">
-                <p>📊 Total patients: {patients.length}</p>
+                <p><FaChartBar /> Total patients: {patients.length}</p>
               </div>
               <table>
                 <thead>
@@ -625,11 +626,11 @@ const AdminDashboard = ({ adminData, onLogout }) => {
 
       {activeTab === 'system' && systemInfo && (
         <div className="system-section">
-          <h3>⚙️ System Management</h3>
+          <h3><FaCog /> System Management</h3>
           
           <div className="system-grid">
             <div className="system-card status">
-              <h4>🟢 System Status</h4>
+              <h4><FaCheckCircle /> System Status</h4>
               <div className="status-items">
                 <div className="status-item">
                   <span>Server:</span>
@@ -647,7 +648,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
             </div>
             
             <div className="system-card logins">
-              <h4>👤 Recent Admin Logins</h4>
+              <h4><FaUser /> Recent Admin Logins</h4>
               <div className="login-list">
                 {systemInfo.recent_admin_logins?.slice(0, 5).map((login, index) => (
                   <div key={index} className="login-item">
@@ -669,12 +670,12 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'doctors' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>👨‍⚕️ Doctors Management</h3>
+            <h3><FaUserMd /> Doctors Management</h3>
             <button 
               className="add-btn"
               onClick={() => setShowRegisterForm('doctor')}
             >
-              ➕ Add New Doctor
+              <FaRegEdit /> Add New Doctor
             </button>
           </div>
           
@@ -718,12 +719,12 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'labtechs' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>🧪 Lab Technicians Management</h3>
+            <h3><FaFlask /> Lab Technicians Management</h3>
             <button 
               className="add-btn"
               onClick={() => setShowRegisterForm('labtechnician')}
             >
-              ➕ Add New Lab Technician
+              <FaRegEdit /> Add New Lab Technician
             </button>
           </div>
           
@@ -767,12 +768,12 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'pharmacists' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>💊 Pharmacists Management</h3>
+            <h3><FaPills /> Pharmacists Management</h3>
             <button 
               className="add-btn"
               onClick={() => setShowRegisterForm('pharmacist')}
             >
-              ➕ Add New Pharmacist
+              <FaRegEdit /> Add New Pharmacist
             </button>
           </div>
           
@@ -816,7 +817,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'donors' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>🫀 Deceased Donors Management</h3>
+            <h3><FaHeart /> Deceased Donors Management</h3>
             <div className="search-controls">
               <input
                 type="text"
@@ -830,7 +831,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                   }
                 }}
               />
-              <button onClick={fetchDonors} className="search-btn">🔍</button>
+              <button onClick={fetchDonors} className="search-btn"><FaSearch /></button>
             </div>
           </div>
           
@@ -910,7 +911,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                       <tr>
                         <td colSpan="6" className="no-data-row">
                           <div className="no-data-content">
-                            <div className="no-data-icon">🫀</div>
+                            <div className="no-data-icon"><FaHeart /></div>
                             <h4>No Deceased Donors Found</h4>
                             <p>No donors match your search criteria or no donors are registered.</p>
                           </div>
@@ -928,7 +929,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
       {activeTab === 'recipients' && (
         <div className="staff-section">
           <div className="section-header">
-            <h3>🏥 Recipients Management</h3>
+            <h3><FaHospital /> Recipients Management</h3>
             <div className="search-controls">
               <input
                 type="text"
@@ -942,7 +943,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                   }
                 }}
               />
-              <button onClick={fetchRecipients} className="search-btn">🔍</button>
+              <button onClick={fetchRecipients} className="search-btn"><FaSearch /></button>
             </div>
           </div>
           
@@ -1022,7 +1023,7 @@ const AdminDashboard = ({ adminData, onLogout }) => {
                       <tr>
                         <td colSpan="7" className="no-data-row">
                           <div className="no-data-content">
-                            <div className="no-data-icon">🏥</div>
+                            <div className="no-data-icon"><FaHospital /></div>
                             <h4>No Recipients Found</h4>
                             <p>No recipients match your search criteria or no recipients are registered.</p>
                           </div>

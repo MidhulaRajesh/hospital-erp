@@ -1,4 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { FaExclamationTriangle } from 'react-icons/fa';
 import './RecipientDashboard.css';
 
 const RecipientDashboard = () => {
@@ -460,7 +461,7 @@ const RecipientDashboard = () => {
                     </select>
                   ) : (
                     <div className="no-donors-message">
-                      <p>⚠️ No compatible deceased donors available in our system.</p>
+                      <p><FaExclamationTriangle /> No compatible deceased donors available in our system.</p>
                       <p>Blood Type: {selectedRecipient?.blood_group} | Required Organ: {selectedRecipient?.required_organ}</p>
                       <p><small>Try selecting "Living/External Donor" if transplant is from outside source.</small></p>
                     </div>

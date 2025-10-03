@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaSearch, FaClipboardList, FaHistory, FaPills, FaSignOutAlt, FaEye, FaDownload, FaUserMd, FaCalendarAlt, FaNotesMedical, FaFileDownload, FaFileMedical, FaUser, FaClipboardCheck, FaPrescriptionBottle, FaSpinner } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './DoctorDashboard.css';
@@ -227,12 +228,12 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
         <div className="header-content">
           <h1>Doctor Dashboard</h1>
           <div className="doctor-info">
-            <span>Dr. {doctorData?.full_name || 'Doctor'}</span>
+            <span><FaUserMd /> Dr. {doctorData?.full_name || 'Doctor'}</span>
             {doctorData?.specialization && (
               <span className="specialization">{doctorData.specialization}</span>
             )}
             <button onClick={handleLogout} className="logout-btn">
-              <span className="logout-icon">↗</span>
+              <FaSignOutAlt className="logout-icon" /> Logout
               Logout
             </button>
           </div>
@@ -246,7 +247,7 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
             className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
             onClick={() => setActiveTab('search')}
           >
-            🔍 Search Patient
+            <FaSearch /> Search Patient
           </button>
           {selectedPatient && (
             <>
@@ -254,7 +255,7 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
                 className={`tab-btn ${activeTab === 'details' ? 'active' : ''}`}
                 onClick={() => setActiveTab('details')}
               >
-                📋 Patient Details
+                <FaClipboardList /> Patient Details
               </button>
               <button 
                 className={`tab-btn ${activeTab === 'history' ? 'active' : ''}`}
@@ -263,13 +264,13 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
                   fetchPatientPrescriptions(selectedPatient.id);
                 }}
               >
-                📜 Prescription History
+                <FaHistory /> Prescription History
               </button>
               <button 
                 className={`tab-btn ${activeTab === 'prescription' ? 'active' : ''}`}
                 onClick={() => setActiveTab('prescription')}
               >
-                💊 Create Prescription
+                <FaPills /> Create Prescription
               </button>
             </>
           )}
@@ -369,7 +370,7 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
                     onClick={downloadAllReports}
                     disabled={downloadingReports.has('all')}
                   >
-                    {downloadingReports.has('all') ? '⏳ Downloading All...' : '📥 Download All Reports'}
+                    {downloadingReports.has('all') ? <FaSpinner className="icon-spin" /> : <><FaDownload /> Download All Reports</>}
                   </button>
                 )}
               </div>
@@ -408,14 +409,14 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
                           rel="noopener noreferrer"
                           className="view-report-btn"
                         >
-                          👁️ View Report
+                          <FaEye /> View Report
                         </a>
                         <button 
                           onClick={() => downloadReport(report)}
                           className="download-report-btn"
                           disabled={downloadingReports.has(report.id)}
                         >
-                          {downloadingReports.has(report.id) ? '⏳ Downloading...' : '📥 Download'}
+                          {downloadingReports.has(report.id) ? <FaSpinner className="icon-spin" /> : <><FaDownload /> Download</>}
                         </button>
                       </div>
                     </div>
@@ -446,14 +447,14 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
                       <div className="prescription-info">
                         <h3>Prescription #{prescription.id}</h3>
                         <p className="doctor-name">
-                          👨‍⚕️ Dr. {prescription.doctor?.full_name || 'Unknown Doctor'}
+                          <FaUserMd /> Dr. {prescription.doctor?.full_name || 'Unknown Doctor'}
                           {prescription.doctor?.specialization && (
                             <span className="specialization"> - {prescription.doctor.specialization}</span>
                           )}
                         </p>
                         <div className="prescription-meta">
                           <span className="prescription-date">
-                            📅 {new Date(prescription.prescribed_date).toLocaleDateString()}
+                            <FaCalendarAlt /> {new Date(prescription.prescribed_date).toLocaleDateString()}
                           </span>
                           <span className={`prescription-status ${prescription.status.toLowerCase()}`}>
                             {prescription.status}
@@ -464,20 +465,20 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
 
                     <div className="prescription-content">
                       <div className="diagnosis-section">
-                        <h4>🩺 Diagnosis</h4>
+                        <h4><FaNotesMedical /> Diagnosis</h4>
                         <p>{prescription.diagnosis}</p>
                       </div>
 
                       <div className="medicines-section">
-                        <h4>💊 Medicines</h4>
+                        <h4><FaPills /> Medicines</h4>
                         <div className="medicines-grid">
                           {prescription.medicines.map((medicine, index) => (
                             <div key={index} className="medicine-card">
                               <div className="medicine-name">{medicine.name}</div>
                               <div className="medicine-details">
-                                <span className="dosage">📏 {medicine.dosage}</span>
-                                <span className="frequency">⏰ {medicine.frequency}</span>
-                                <span className="duration">📅 {medicine.duration}</span>
+                                <span className="dosage"><FaClipboardCheck /> {medicine.dosage}</span>
+                                <span className="frequency"><FaHistory /> {medicine.frequency}</span>
+                                <span className="duration"><FaCalendarAlt /> {medicine.duration}</span>
                               </div>
                             </div>
                           ))}
@@ -486,7 +487,7 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
 
                       {prescription.instructions && (
                         <div className="instructions-section">
-                          <h4>📝 Instructions</h4>
+                          <h4><FaClipboardList /> Instructions</h4>
                           <p>{prescription.instructions}</p>
                         </div>
                       )}
@@ -496,7 +497,7 @@ const DoctorDashboard = ({ doctorData, onLogout }) => {
               </div>
             ) : (
               <div className="no-prescriptions">
-                <div className="no-prescriptions-icon">💊</div>
+                <div className="no-prescriptions-icon"><FaPills /></div>
                 <h3>No Previous Prescriptions</h3>
                 <p>This patient has no prescription history yet.</p>
               </div>

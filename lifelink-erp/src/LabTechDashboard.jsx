@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaUserNurse, FaSignOutAlt, FaSearch, FaFileUpload, FaUser, FaEnvelope, FaPhone, FaTint, FaBirthdayCake, FaEdit, FaCheckCircle, FaSpinner } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LabTechDashboard.css';
@@ -170,12 +171,11 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
     <div className="lab-dashboard-container">
       <header className="lab-dashboard-header">
         <div className="header-content">
-          <h1>Lab Technician Dashboard</h1>
+          <h1><FaUserNurse /> Lab Technician Dashboard</h1>
           <div className="tech-info">
-            <span>Welcome, {labTechData?.full_name || 'Lab Technician'}</span>
+            <span><FaUserNurse /> Welcome, {labTechData?.full_name || 'Lab Technician'}</span>
             <button onClick={handleLogout} className="logout-btn">
-              <span className="logout-icon">↗</span>
-              Logout
+              <FaSignOutAlt className="logout-icon" /> Logout
             </button>
           </div>
         </div>
@@ -184,7 +184,7 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
       <div className="lab-dashboard-content">
         {/* Patient Search Section */}
         <div className="search-section">
-          <h2>Find Patient</h2>
+          <h2><FaSearch /> Find Patient</h2>
           <div className="search-form">
             <div className="search-input-group">
               <input
@@ -199,7 +199,7 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
                 className="search-btn"
                 disabled={isLoading}
               >
-                {isLoading ? 'Searching...' : 'Search'}
+                {isLoading ? <FaSpinner className="icon-spin" /> : <FaSearch />} Search
               </button>
             </div>
           </div>
@@ -215,10 +215,10 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
                   onClick={() => selectPatient(patient)}
                 >
                   <div className="patient-info">
-                    <h4>{patient.full_name}</h4>
-                    <p>Email: {patient.email}</p>
-                    <p>Phone: {patient.contact_number}</p>
-                    <p>Blood Group: {patient.blood_group}</p>
+                    <h4><FaUser /> {patient.full_name}</h4>
+                    <p><FaEnvelope /> {patient.email}</p>
+                    <p><FaPhone /> {patient.contact_number}</p>
+                    <p><FaTint /> {patient.blood_group}</p>
                   </div>
                   <button className="select-btn">Select</button>
                 </div>
@@ -230,14 +230,14 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
         {/* Selected Patient Section */}
         {selectedPatient && (
           <div className="selected-patient-section">
-            <h2>Selected Patient</h2>
+            <h2><FaCheckCircle /> Selected Patient</h2>
             <div className="patient-card">
               <div className="patient-details">
-                <h3>{selectedPatient.full_name}</h3>
-                <p><strong>Email:</strong> {selectedPatient.email}</p>
-                <p><strong>Phone:</strong> {selectedPatient.contact_number}</p>
-                <p><strong>Blood Group:</strong> {selectedPatient.blood_group}</p>
-                <p><strong>DOB:</strong> {selectedPatient.dob}</p>
+                <h3><FaUser /> {selectedPatient.full_name}</h3>
+                <p><FaEnvelope /> {selectedPatient.email}</p>
+                <p><FaPhone /> {selectedPatient.contact_number}</p>
+                <p><FaTint /> {selectedPatient.blood_group}</p>
+                <p><FaBirthdayCake /> {selectedPatient.dob}</p>
               </div>
               <button 
                 className="change-patient-btn"
@@ -252,10 +252,10 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
         {/* Report Upload Section */}
         {selectedPatient && (
           <div className="upload-section">
-            <h2>Upload Lab Report</h2>
+            <h2><FaFileUpload /> Upload Lab Report</h2>
             <form onSubmit={handleFileUpload} className="upload-form">
               <div className="form-group">
-                <label htmlFor="reportName">Report Name *</label>
+                <label htmlFor="reportName"><FaEdit /> Report Name *</label>
                 <input
                   type="text"
                   id="reportName"
@@ -268,7 +268,7 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="reportFile">Select Report File *</label>
+                <label htmlFor="reportFile"><FaFileUpload /> Select Report File *</label>
                 <input
                   type="file"
                   id="reportFile"
@@ -281,7 +281,7 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="remarks">Remarks (Optional)</label>
+                <label htmlFor="remarks"><FaEdit /> Remarks (Optional)</label>
                 <textarea
                   id="remarks"
                   value={remarks}
@@ -297,7 +297,7 @@ const LabTechDashboard = ({ labTechData, onLogout }) => {
                 className={`upload-btn ${isLoading ? 'loading' : ''}`}
                 disabled={isLoading}
               >
-                {isLoading ? 'Uploading...' : 'Upload Report'}
+                {isLoading ? <FaSpinner className="icon-spin" /> : <FaFileUpload />} Upload Report
               </button>
             </form>
           </div>

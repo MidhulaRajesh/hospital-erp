@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaPills, FaUser, FaPhone, FaTint, FaUserMd, FaHospital, FaCalendarAlt, FaSearch, FaRegEdit, FaEye, FaCheckCircle, FaTimesCircle, FaClipboardList, FaSignOutAlt, FaSyncAlt, FaUserTie } from 'react-icons/fa';
 import './PharmacistDashboard.css';
 
 const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
@@ -98,9 +99,9 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
     <div key={prescription.id} className="prescription-card">
       <div className="prescription-header">
         <div className="patient-info">
-          <h3>👤 {prescription.patient?.full_name}</h3>
-          <p>📞 {prescription.patient?.contact_number}</p>
-          <p>🩸 {prescription.patient?.blood_group}</p>
+          <h3><FaUser /> {prescription.patient?.full_name}</h3>
+          <p><FaPhone /> {prescription.patient?.contact_number}</p>
+          <p><FaTint /> {prescription.patient?.blood_group}</p>
         </div>
         <div className="prescription-status">
           <span className={`status-badge ${prescription.status.toLowerCase()}`}>
@@ -111,19 +112,19 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
       </div>
 
       <div className="doctor-info">
-        <p><strong>👨‍⚕️ Doctor:</strong> {prescription.doctor?.full_name}</p>
-        <p><strong>🏥 Specialization:</strong> {prescription.doctor?.specialization}</p>
-        <p><strong>📅 Prescribed:</strong> {new Date(prescription.prescribed_date).toLocaleDateString()}</p>
+        <p><strong><FaUserMd /> Doctor:</strong> {prescription.doctor?.full_name}</p>
+        <p><strong><FaHospital /> Specialization:</strong> {prescription.doctor?.specialization}</p>
+        <p><strong><FaCalendarAlt /> Prescribed:</strong> {new Date(prescription.prescribed_date).toLocaleDateString()}</p>
       </div>
 
       {prescription.diagnosis && (
         <div className="diagnosis-info">
-          <p><strong>🔍 Diagnosis:</strong> {prescription.diagnosis}</p>
+          <p><strong><FaSearch /> Diagnosis:</strong> {prescription.diagnosis}</p>
         </div>
       )}
 
       <div className="medicines-section">
-        <h4>💊 Prescribed Medicines:</h4>
+        <h4><FaPills /> Prescribed Medicines:</h4>
         <div className="medicines-list">
           {Array.isArray(prescription.medicines) ? (
             prescription.medicines.map((medicine, index) => (
@@ -144,7 +145,7 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
 
       {prescription.instructions && (
         <div className="instructions-section">
-          <p><strong>📝 Instructions:</strong> {prescription.instructions}</p>
+          <p><strong><FaRegEdit /> Instructions:</strong> {prescription.instructions}</p>
         </div>
       )}
 
@@ -153,7 +154,7 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
           className="view-details-btn"
           onClick={() => setSelectedPrescription(prescription)}
         >
-          👁️ View Details
+          <FaEye /> View Details
         </button>
         
         {prescription.status === 'Active' && (
@@ -161,13 +162,13 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
             className="dispense-btn"
             onClick={() => dispensePrescription(prescription.id)}
           >
-            ✅ Mark as Dispensed
+            <FaCheckCircle /> Mark as Dispensed
           </button>
         )}
         
         {prescription.status === 'Completed' && prescription.dispensed_date && (
           <div className="dispensed-info">
-            <small>✅ Dispensed on {new Date(prescription.dispensed_date).toLocaleDateString()}</small>
+            <small><FaCheckCircle /> Dispensed on {new Date(prescription.dispensed_date).toLocaleDateString()}</small>
           </div>
         )}
       </div>
@@ -178,16 +179,16 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
     <div className="pharmacist-dashboard">
       <div className="dashboard-header">
         <div className="pharmacist-info">
-          <h1>💊 Pharmacy Portal</h1>
+          <h1><FaPills /> Pharmacy Portal</h1>
           <div className="pharmacist-details">
-            <p><strong>👨‍💼 {pharmacist.full_name}</strong></p>
-            <p>🏥 Hospital Pharmacist</p>
-            <p>📋 License: {pharmacist.license_number}</p>
-            <p>📞 {pharmacist.phone}</p>
+            <p><strong><FaUserTie /> {pharmacist.full_name}</strong></p>
+            <p><FaHospital /> Hospital Pharmacist</p>
+            <p><FaClipboardList /> License: {pharmacist.license_number}</p>
+            <p><FaPhone /> {pharmacist.phone}</p>
           </div>
         </div>
         <button className="logout-btn" onClick={onLogout}>
-          🚪 Logout
+          <FaSignOutAlt /> Logout
         </button>
       </div>
 
@@ -196,13 +197,13 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
           className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
           onClick={() => setActiveTab('search')}
         >
-          🔍 Search Prescriptions
+          <FaSearch /> Search Prescriptions
         </button>
         <button 
           className={`tab-btn ${activeTab === 'recent' ? 'active' : ''}`}
           onClick={() => setActiveTab('recent')}
         >
-          📋 Recent Prescriptions
+          <FaClipboardList /> Recent Prescriptions
         </button>
       </div>
 
@@ -218,7 +219,7 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
                 className="search-input"
               />
               <button type="submit" className="search-btn" disabled={loading}>
-                {loading ? '🔄' : '🔍'} Search
+                {loading ? <FaSyncAlt className="icon-spin" /> : <FaSearch />} Search
               </button>
             </div>
           </form>
@@ -265,7 +266,7 @@ const PharmacistDashboard = ({ pharmacistData, onLogout }) => {
                 className="close-btn"
                 onClick={() => setSelectedPrescription(null)}
               >
-                ❌
+                <FaTimesCircle />
               </button>
             </div>
             <div className="modal-body">

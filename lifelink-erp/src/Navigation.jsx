@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaHospital, FaUser, FaRegEdit, FaChartBar, FaUserMd, FaFlask, FaPills, FaShieldAlt, FaHeart, FaClipboardList, FaSearch, FaLungs } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navigation.css';
 
@@ -9,20 +10,20 @@ const Navigation = () => {
     <nav className="main-navigation">
       <div className="nav-container">
         <div className="nav-brand">
-          <h2>🏥 LifeLink ERP</h2>
+          <h2><FaHospital /> LifeLink ERP</h2>
         </div>
         
         <div className="nav-links">
           <div className="nav-section">
             <h3>Patient Services</h3>
             <Link to="/login" className="nav-link">
-              👤 Patient Login
+              <FaUser /> Patient Login
             </Link>
             <Link to="/register" className="nav-link">
-              📝 Patient Registration
+              <FaRegEdit /> Patient Registration
             </Link>
             <Link to="/dashboard" className="nav-link">
-              📊 Patient Dashboard
+              <FaChartBar /> Patient Dashboard
             </Link>
             <Link to="/book-appointment" className="nav-link">
               📅 Book Appointment
@@ -32,39 +33,39 @@ const Navigation = () => {
           <div className="nav-section">
             <h3>Medical Staff</h3>
             <Link to="/doctor-login" className="nav-link">
-              👨‍⚕️ Doctor Login
+              <FaUserMd /> Doctor Login
             </Link>
             <Link to="/lab-login" className="nav-link">
-              🧪 Lab Technician Login
+              <FaFlask /> Lab Technician Login
             </Link>
             <Link to="/pharmacist-login" className="nav-link">
-              💊 Pharmacist Login
+              <FaPills /> Pharmacist Login
             </Link>
           </div>
 
           <div className="nav-section">
             <h3>Administration</h3>
             <Link to="/admin-login" className="nav-link admin-link">
-              🛡️ Admin Login
+              <FaShieldAlt /> Admin Login
             </Link>
           </div>
 
           <div className="nav-section">
             <h3>Organ Transplant System</h3>
             <Link to="/deceased-donor-registration" className="nav-link primary">
-              🫀 Deceased Donor Registration
+              <FaHeart /> Deceased Donor Registration
             </Link>
             <Link to="/recipient-registration" className="nav-link">
-              📋 Recipient Registration
+              <FaClipboardList /> Recipient Registration
             </Link>
             <Link to="/organ-matching" className="nav-link">
-              🔍 Organ Matching
+              <FaSearch /> Organ Matching
             </Link>
             <Link to="/recipient-dashboard" className="nav-link">
-              📊 Recipients Dashboard
+              <FaChartBar /> Recipients Dashboard
             </Link>
             <Link to="/organ-transplant" className="nav-link">
-              🫁 Transplant Coordination
+              <FaLungs /> Transplant Coordination
             </Link>
           </div>
         </div>

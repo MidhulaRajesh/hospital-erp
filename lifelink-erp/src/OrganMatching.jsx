@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaHeart, FaLiver, FaKidney, FaLungs, FaVial, FaEye, FaHands, FaBone, FaSyncAlt, FaHospital, FaClipboardList, FaSearch, FaChartBar, FaArrowLeft, FaArrowRight, FaPhone, FaMapMarkerAlt, FaUser, FaExclamationTriangle, FaBolt, FaTint, FaRegEdit, FaListAlt, FaCheckCircle } from 'react-icons/fa';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import './OrganMatching.css';
 
@@ -206,18 +207,18 @@ const OrganMatching = () => {
 
   const getOrganIcon = (organ) => {
     const icons = {
-      'Heart': '❤️',
-      'Liver': '🫀',
-      'Kidney': '🫘',
-      'Lungs': '🫁',
-      'Pancreas': '🩻',
-      'Corneas': '👁️',
-      'Skin': '🤲',
-      'Bone': '🦴',
-      'Small_Intestine': '🔄',
-      'Heart_Valves': '💝'
+      'Heart': <FaHeart />,
+      'Liver': <FaLiver />,
+      'Kidney': <FaKidney />,
+      'Lungs': <FaLungs />,
+      'Pancreas': <FaVial />,
+      'Corneas': <FaEye />,
+      'Skin': <FaHands />,
+      'Bone': <FaBone />,
+      'Small_Intestine': <FaSyncAlt />,
+      'Heart_Valves': <FaCheckCircle />
     };
-    return icons[organ] || '🧬';
+    return icons[organ] || <FaListAlt />;
   };
 
   const getRankBadgeColor = (rank) => {
@@ -243,7 +244,7 @@ const OrganMatching = () => {
   return (
     <div className="organ-matching-container">
       <div className="matching-header">
-        <h1>🫀 Organ Matching System</h1>
+  <h1><FaHeart /> Organ Matching System</h1>
         <p>Find the best recipients for each available organ</p>
         {error && (
           <div className="error-message">
@@ -397,11 +398,11 @@ const OrganMatching = () => {
                           
                           <div className="recipient-details-grid">
                             <div className="detail">
-                              <span className="label">🩸 Blood:</span>
+                              <span className="label"><FaTint /> Blood:</span>
                               <span className="value">{match.bloodGroup}</span>
                             </div>
                             <div className="detail">
-                              <span className="label">⚡ Urgency:</span>
+                              <span className="label"><FaBolt /> Urgency:</span>
                               <span 
                                 className="value urgency-badge"
                                 style={{ backgroundColor: getUrgencyColor(match.urgencyLevel) }}
@@ -410,15 +411,15 @@ const OrganMatching = () => {
                               </span>
                             </div>
                             <div className="detail">
-                              <span className="label">📍 Distance:</span>
+                              <span className="label"><FaMapMarkerAlt /> Distance:</span>
                               <span className="value">{match.distance} km</span>
                             </div>
                             <div className="detail">
-                              <span className="label">🏥 Location:</span>
+                              <span className="label"><FaHospital /> Location:</span>
                               <span className="value">{match.hospitalLocation}</span>
                             </div>
                             <div className="detail">
-                              <span className="label">📞 Contact:</span>
+                              <span className="label"><FaPhone /> Contact:</span>
                               <span className="value">{match.contactNumber}</span>
                             </div>
                           </div>

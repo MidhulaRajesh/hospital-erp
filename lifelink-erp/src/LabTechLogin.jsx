@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaUserNurse, FaEnvelope, FaLock, FaSignInAlt, FaSpinner } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LabTechLogin.css';
@@ -39,11 +40,11 @@ const LabTechLogin = ({ setLabTechData }) => {
   return (
     <div className="lab-login-container">
       <form className="lab-login-form" onSubmit={handleSubmit}>
-        <h2>Lab Technician Login</h2>
-        <p className="lab-login-subtitle">Access Lab Management System</p>
+  <h2><FaUserNurse /> Lab Technician Login</h2>
+  <p className="lab-login-subtitle">Access Lab Management System</p>
 
         <div className="form-group">
-          <label htmlFor="email">Email Address</label>
+          <label htmlFor="email"><FaEnvelope /> Email Address</label>
           <input 
             type="email" 
             id="email"
@@ -57,7 +58,7 @@ const LabTechLogin = ({ setLabTechData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password"><FaLock /> Password</label>
           <input 
             type="password" 
             id="password"
@@ -75,7 +76,7 @@ const LabTechLogin = ({ setLabTechData }) => {
           className={`submit-btn ${isLoading ? 'loading' : ''}`}
           disabled={isLoading}
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? <span><FaSpinner className="icon-spin" /> Logging in...</span> : <span><FaSignInAlt /> Login</span>}
         </button>
         
         {message && <p className="message">{message}</p>}

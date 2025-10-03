@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaHistory, FaUser, FaTint, FaHospital, FaNotesMedical, FaUserFriends } from 'react-icons/fa';
 import './TransplantHistory.css';
 
 const TransplantHistory = () => {
@@ -50,12 +51,12 @@ const TransplantHistory = () => {
   return (
     <div className="transplant-history-container">
       <div className="history-header">
-        <h1>Transplant History</h1>
+        <h1><FaHistory /> Transplant History</h1>
         <p>Completed organ transplant records</p>
         <div className="stats-summary">
           <div className="stat-card">
             <span className="stat-number">{completedTransplants.length}</span>
-            <span className="stat-label">Completed Transplants</span>
+            <span className="stat-label"><FaNotesMedical /> Completed Transplants</span>
           </div>
         </div>
       </div>
@@ -83,7 +84,7 @@ const TransplantHistory = () => {
               {filteredTransplants.map((transplant) => (
                 <div key={transplant.id} className="history-card">
                   <div className="card-header">
-                    <h3 className="recipient-name">{transplant.full_name}</h3>
+                    <h3 className="recipient-name"><FaUser /> {transplant.full_name}</h3>
                     <span className="completion-date">
                       Completed: {formatDate(transplant.transplant_completion_date)}
                     </span>
@@ -92,30 +93,30 @@ const TransplantHistory = () => {
                   <div className="transplant-details">
                     <div className="detail-section">
                       <div className="detail-item">
-                        <span className="label">Organ:</span>
+                        <span className="label"><FaNotesMedical /> Organ:</span>
                         <span className="value">{transplant.required_organ}</span>
                       </div>
                       <div className="detail-item">
-                        <span className="label">Blood Type:</span>
+                        <span className="label"><FaTint /> Blood Type:</span>
                         <span className="value">{transplant.blood_group}</span>
                       </div>
                       <div className="detail-item">
-                        <span className="label">Hospital:</span>
+                        <span className="label"><FaHospital /> Hospital:</span>
                         <span className="value">{transplant.hospital_name}</span>
                       </div>
                     </div>
                     
                     {transplant.transplants && transplant.transplants[0] && (
                       <div className="donor-section">
-                        <h4>Donor Information</h4>
+                        <h4><FaUserFriends /> Donor Information</h4>
                         <div className="detail-item">
-                          <span className="label">Donor:</span>
+                          <span className="label"><FaUser /> Donor:</span>
                           <span className="value">
                             {transplant.transplants[0].donor?.full_name || 'Information not available'}
                           </span>
                         </div>
                         <div className="detail-item">
-                          <span className="label">Donor Blood Type:</span>
+                          <span className="label"><FaTint /> Donor Blood Type:</span>
                           <span className="value">
                             {transplant.transplants[0].donor?.blood_group || 'N/A'}
                           </span>

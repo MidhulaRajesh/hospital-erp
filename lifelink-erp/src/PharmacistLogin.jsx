@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaPills, FaExclamationTriangle, FaEnvelope, FaLock, FaHospital } from 'react-icons/fa';
 import './PharmacistLogin.css';
 
 const PharmacistLogin = ({ onLogin }) => {
@@ -51,7 +52,7 @@ const PharmacistLogin = ({ onLogin }) => {
   return (
     <div className="pharmacist-login-container">
       <div className="login-background">
-        <div className="pharmacy-icon">💊</div>
+  <div className="pharmacy-icon"><FaPills /></div>
       </div>
       
       <div className="login-card">
@@ -63,7 +64,7 @@ const PharmacistLogin = ({ onLogin }) => {
         <form onSubmit={handleSubmit} className="login-form">
           {error && (
             <div className="error-message">
-              <span className="error-icon">⚠️</span>
+              <span className="error-icon"><FaExclamationTriangle /></span>
               {error}
             </div>
           )}
@@ -71,7 +72,7 @@ const PharmacistLogin = ({ onLogin }) => {
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <div className="input-group">
-              <span className="input-icon">📧</span>
+              <span className="input-icon"><FaEnvelope /></span>
               <input
                 type="email"
                 id="email"
@@ -87,7 +88,7 @@ const PharmacistLogin = ({ onLogin }) => {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <div className="input-group">
-              <span className="input-icon">🔒</span>
+              <span className="input-icon"><FaLock /></span>
               <input
                 type="password"
                 id="password"
@@ -117,7 +118,7 @@ const PharmacistLogin = ({ onLogin }) => {
         </form>
 
         <div className="login-footer">
-          <p>🏥 Secure pharmacy management system</p>
+          <p><FaHospital /> Secure pharmacy management system</p>
           <p>Licensed pharmacists only</p>
         </div>
       </div>
