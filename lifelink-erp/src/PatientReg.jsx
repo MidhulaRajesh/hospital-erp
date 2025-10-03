@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./PatientRegisterForm.css";
@@ -35,7 +36,7 @@ const PatientRegisterForm = () => {
         }
       });
 
-      setMessage("✅ Registered successfully! Redirecting to login...");
+  setMessage(<span style={{color: 'green'}}><FaCheckCircle /> Registered successfully! Redirecting to login...</span>);
       setFormData({
         full_name: "",
         dob: "",
@@ -56,16 +57,16 @@ const PatientRegisterForm = () => {
       if (err.response) {
         // Server responded with error status
         if (err.response.status === 400 && err.response.data.error?.includes('email')) {
-          setMessage("❌ Email already registered. Please use a different email or try logging in.");
+          setMessage(<span style={{color: 'red'}}><FaTimesCircle /> Email already registered. Please use a different email or try logging in.</span>);
         } else {
-          setMessage("❌ " + (err.response.data.error || err.response.data.message || "Registration failed"));
+          setMessage(<span style={{color: 'red'}}><FaTimesCircle /> {(err.response.data.error || err.response.data.message || "Registration failed")}</span>);
         }
       } else if (err.request) {
         // Request was made but no response received
-        setMessage("❌ No response from server. Please check your connection.");
+  setMessage(<span style={{color: 'red'}}><FaTimesCircle /> No response from server. Please check your connection.</span>);
       } else {
         // Something else happened
-        setMessage("❌ Error: " + err.message);
+  setMessage(<span style={{color: 'red'}}><FaTimesCircle /> Error: {err.message}</span>);
       }
     } finally {
       setIsLoading(false);
