@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaSignOutAlt, FaInfoCircle, FaClipboardList, FaDownload, FaFlask, FaCalendarAlt, FaUserMd, FaRegEdit, FaEye, FaSpinner, FaPills, FaSearch } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./PatientDashboard.css";
@@ -160,8 +161,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
         <div className="header-content">
           <h1>Patient Dashboard</h1>
           <button onClick={handleLogout} className="logout-btn">
-            <span className="logout-icon">↗</span>
-            Logout
+            <FaSignOutAlt className="logout-icon" /> Logout
           </button>
         </div>
       </header>
@@ -171,7 +171,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
           <h2>Patient Information</h2>
           {isEditing && (
             <div className="edit-notice">
-              <span className="edit-icon">ℹ️</span>
+              <span className="edit-icon"><FaInfoCircle /></span>
               <p>For security reasons, you can only edit your mobile number and address. Other details are read-only.</p>
             </div>
           )}
@@ -312,7 +312,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
             <div className="header-content">
               <div className="header-title">
                 <div className="icon-wrapper">
-                  <span className="reports-icon">📋</span>
+                  <span className="reports-icon"><FaClipboardList /></span>
                 </div>
                 <div className="title-text">
                   <h2>Lab Reports</h2>
@@ -325,7 +325,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                   onClick={downloadAllReports}
                   disabled={downloadingReports.has('all')}
                 >
-                  <span className="btn-icon">📥</span>
+                  <span className="btn-icon"><FaDownload /></span>
                   {downloadingReports.has('all') ? 'Downloading All...' : 'Download All'}
                 </button>
               )}
@@ -339,13 +339,13 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                   <div key={index} className="report-card">
                     <div className="report-card-header">
                       <div className="report-icon">
-                        <span>🧪</span>
+                        <span><FaFlask /></span>
                       </div>
                       <div className="report-title-section">
                         <h3 className="report-title">{report.report_name}</h3>
                         <div className="report-meta">
                           <span className="report-date">
-                            <span className="date-icon">📅</span>
+                            <span className="date-icon"><FaCalendarAlt /></span>
                             {new Date(report.test_date).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'short',
@@ -364,7 +364,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                       <div className="report-info-grid">
                         <div className="info-item">
                           <span className="info-label">
-                            <span className="label-icon">👨‍⚕️</span>
+                            <span className="label-icon"><FaUserMd /></span>
                             Technician
                           </span>
                           <span className="info-value">{report.technician_name}</span>
@@ -373,7 +373,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                         {report.remarks && (
                           <div className="info-item remarks">
                             <span className="info-label">
-                              <span className="label-icon">📝</span>
+                              <span className="label-icon"><FaRegEdit /></span>
                               Remarks
                             </span>
                             <span className="info-value">{report.remarks}</span>
@@ -388,7 +388,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                           rel="noopener noreferrer"
                           className="action-btn view-btn"
                         >
-                          <span className="btn-icon">�️</span>
+                          <span className="btn-icon"><FaEye /></span>
                           <span>View Report</span>
                         </a>
                         <button 
@@ -397,7 +397,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                           disabled={downloadingReports.has(report.id)}
                         >
                           <span className="btn-icon">
-                            {downloadingReports.has(report.id) ? '⏳' : '📥'}
+                            {downloadingReports.has(report.id) ? <FaSpinner className="icon-spin" /> : <FaDownload />}
                           </span>
                           <span>
                             {downloadingReports.has(report.id) ? 'Downloading...' : 'Download'}
@@ -412,14 +412,14 @@ const PatientDashboard = ({ patientData, onLogout }) => {
               <div className="no-reports-state">
                 <div className="no-reports-illustration">
                   <div className="illustration-circle">
-                    <span className="illustration-icon">📋</span>
-                  </div>
+                      <span className="illustration-icon"><FaClipboardList /></span>
+                    </div>
                 </div>
                 <div className="no-reports-content">
                   <h3>No Lab Reports Available</h3>
                   <p>Your lab reports will appear here once they are uploaded by the lab technician.</p>
                   <div className="no-reports-tips">
-                    <p>💡 <strong>Tip:</strong> Check back later or contact your healthcare provider for updates</p>
+                    <p><FaInfoCircle /> <strong>Tip:</strong> Check back later or contact your healthcare provider for updates</p>
                   </div>
                 </div>
               </div>
@@ -442,10 +442,10 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                     <div className="prescription-info">
                       <h3>Prescription #{prescription.id}</h3>
                       <p className="doctor-name">
-                        👨‍⚕️ Dr. {prescription.doctor?.full_name || 'Unknown Doctor'}
+                        <FaUserMd /> Dr. {prescription.doctor?.full_name || 'Unknown Doctor'}
                       </p>
                       <span className="prescription-date">
-                        📅 {new Date(prescription.prescribed_date).toLocaleDateString()}
+                        <FaCalendarAlt /> {new Date(prescription.prescribed_date).toLocaleDateString()}
                       </span>
                     </div>
                     <div className={`prescription-status ${prescription.status.toLowerCase()}`}>
@@ -456,13 +456,13 @@ const PatientDashboard = ({ patientData, onLogout }) => {
                   <div className="prescription-content">
                     {prescription.diagnosis && (
                       <div className="diagnosis-section">
-                        <strong>🔍 Diagnosis:</strong>
+                        <strong><FaSearch /> Diagnosis:</strong>
                         <p>{prescription.diagnosis}</p>
                       </div>
                     )}
                     
                     <div className="medicines-section">
-                      <strong>💊 Medicines:</strong>
+                      <strong><FaPills /> Medicines:</strong>
                       <div className="medicines-list">
                         {Array.isArray(prescription.medicines) ? (
                           prescription.medicines.map((medicine, index) => (
@@ -492,7 +492,7 @@ const PatientDashboard = ({ patientData, onLogout }) => {
               ))
             ) : (
               <div className="no-prescriptions">
-                <div className="no-prescriptions-icon">💊</div>
+                <div className="no-prescriptions-icon"><FaPills /></div>
                 <h3>No Prescriptions Found</h3>
                 <p>Your prescriptions from doctors will appear here.</p>
               </div>
